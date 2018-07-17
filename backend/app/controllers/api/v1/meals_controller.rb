@@ -1,4 +1,4 @@
-class MealsController < ApplicationController
+class Api::V1::MealsController < ApplicationController
   before_action :set_meal, only: [:show, :update, :destroy]
 
   # GET /meals
