@@ -3,9 +3,10 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all
+    # @users = User.all
 
-    render json: @users
+    # render json: @users
+    render json: current_user
   end
 
   # GET /users/1

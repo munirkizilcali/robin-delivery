@@ -6,7 +6,8 @@ Rails.application.routes.draw do
 		  resources :meals
 		  resources :menu_items
 		  resources :restaurants
-		  resources :users
+		  resources :users, only: [:index]
+		  post 'user_token' => 'user_token#create'
 		end
 	end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
