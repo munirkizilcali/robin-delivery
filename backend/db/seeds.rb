@@ -10,9 +10,16 @@ cuisine=['American', 'Barbecue', 'Chinese', 'French', 'Hamburger', 'Indian', 'It
 
 food_type=['Main', 'Beverage', 'Dessert', 'Starter', 'Pasta', 'Sandwich', 'Grill' ]
 
-user1 = User.create({first_name:'user1', email:'user1@test.com', password:'12345678', password_confirmation:'12345678', user_type:'customer', photo_url: "https://robohash.org/user1?set=set2"})
-user2 = User.create({first_name:'user2', email:'user2@test.com', password:'12345678', password_confirmation:'12345678', user_type:'customer', photo_url: "https://robohash.org/user2?set=set2"})
-user3 = User.create({first_name:'user3', email:'user3@test.com', password:'12345678', password_confirmation:'12345678', user_type:'customer', photo_url: "https://robohash.org/user3?set=set2"})
+users = []
+user_list = []
+200.times {|i| users.push("user#{i}")}
+users.each do |user|
+user_list.push(User.create({first_name: user, email:"#{user}@test.com", password:'12345678', password_confirmation:'12345678', user_type:'customer', photo_url: "https://robohash.org/#{user}?set=set2"}))
+end
+
+# user1 = User.create({first_name:'user1', email:'user1@test.com', password:'12345678', password_confirmation:'12345678', user_type:'customer', photo_url: "https://robohash.org/user1?set=set2"})
+# user2 = User.create({first_name:'user2', email:'user2@test.com', password:'12345678', password_confirmation:'12345678', user_type:'customer', photo_url: "https://robohash.org/user2?set=set2"})
+# user3 = User.create({first_name:'user3', email:'user3@test.com', password:'12345678', password_confirmation:'12345678', user_type:'customer', photo_url: "https://robohash.org/user3?set=set2"})
 courier1 = User.create({first_name:'courier1', email:'courier1@test.com', password:'12345678', password_confirmation:'12345678', user_type:'courier', photo_url: "https://robohash.org/courier1?set=set2"})
 courier2 = User.create({first_name:'courier2', email:'courier2@test.com', password:'12345678', password_confirmation:'12345678', user_type:'courier', photo_url: "https://robohash.org/courier2?set=set2"})
 manager1 = User.create({first_name:'manager1', email:'manager1@test.com', password:'12345678', password_confirmation:'12345678', user_type:'manager', photo_url: "https://robohash.org/manager1?set=set2"})
@@ -20,10 +27,10 @@ manager2 = User.create({first_name:'manager2', email:'manager2@test.com', passwo
 admin1 = User.create({first_name:'admin1', email:'admin1@test.com', password:'12345678', password_confirmation:'12345678', user_type:'admin', photo_url: "https://robohash.org/admin1?set=set2"})
 
 managers = [manager1, manager2]
-users = [user1, user2, user3]
+
 couriers = [ courier1, courier2]
 
-10.times do 
+60.times do 
 	rest_name = Faker::HitchhikersGuideToTheGalaxy.planet
 	rest = Restaurant.create({ name: rest_name, motto: Faker::HitchhikersGuideToTheGalaxy.quote, address: Faker::Address.full_address, cuisine: cuisine[rand(cuisine.length)], location: "#{Faker::Address.latitude},#{Faker::Address.longitude}", available:true, manager_id: managers[rand(managers.length)].id, logo:"https://robohash.org/#{rest_name}?set=set3" })
 	(rand(20)+5).times do 
@@ -31,7 +38,7 @@ couriers = [ courier1, courier2]
 	end
 end
 
-users.each do |user| 
+user_list.each do |user| 
 	5.times do 
 		dcl = rand(10)
 		rest = Restaurant.all[rand(Restaurant.all.length)]

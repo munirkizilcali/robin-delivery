@@ -3,14 +3,14 @@ class Api::V1::RestaurantsController < ApplicationController
 
   # GET /restaurants
   def index
-    @restaurants = Restaurant.all
+    @restaurants = Restaurant.all.includes(:orders).includes(:reviews)
 
-    render json: @restaurants
+    render json: @restaurants, each_serializer: SimpleRestaurantSerializer
   end
 
   # GET /restaurants/1
   def show
-    render json: @restaurant
+    render json: @restaurant, serializer: RestaurantSerializer
   end
 
   # POST /restaurants
