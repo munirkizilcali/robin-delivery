@@ -1,8 +1,7 @@
 import React from "react";
-import { Button } from "semantic-ui-react";
 import { connect } from "react-redux";
 
-import { login, logout } from "../redux/actions/login";
+import { logout } from "../redux/actions/login";
 
 class Logout extends React.Component {
 	handleClick = e => {
