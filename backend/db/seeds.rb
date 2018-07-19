@@ -24,7 +24,8 @@ users = [user1, user2, user3]
 couriers = [ courier1, courier2]
 
 10.times do 
-	rest = Restaurant.create({ name: Faker::HitchhikersGuideToTheGalaxy.planet, motto: Faker::HitchhikersGuideToTheGalaxy.quote, address: Faker::Address.full_address, cuisine: cuisine[rand(cuisine.length)], location: "#{Faker::Address.latitude},#{Faker::Address.longitude}", available:true, manager_id: managers[rand(managers.length)].id, logo:'https://picsum.photos/200/?random' })
+	rest_name = Faker::HitchhikersGuideToTheGalaxy.planet
+	rest = Restaurant.create({ name: rest_name, motto: Faker::HitchhikersGuideToTheGalaxy.quote, address: Faker::Address.full_address, cuisine: cuisine[rand(cuisine.length)], location: "#{Faker::Address.latitude},#{Faker::Address.longitude}", available:true, manager_id: managers[rand(managers.length)].id, logo:"https://robohash.org/#{rest_name}?set=set3" })
 	(rand(20)+5).times do 
 		rest.menu_items.create({name: Faker::Food.dish, calories: rand(900), ingredients: "#{Faker::Food.ingredient}, #{Faker::Food.ingredient}, #{Faker::Food.ingredient}, #{Faker::Food.ingredient} and #{Faker::Food.ingredient}", price: rand(5), item_type: food_type[rand(food_type.length)], vegetarian:[true, false].sample, vegan:[true, false].sample, description: Faker::Food.description, photo_url:'https://picsum.photos/200/?random'})
 	end

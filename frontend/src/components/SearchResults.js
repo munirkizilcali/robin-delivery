@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import {List, Image} from 'semantic-ui-react'
+import {List, Image, Rating} from 'semantic-ui-react'
 
 import { myFetch } from "../lib/myFetch";
 import { addResults } from "../redux/actions/searchResults";
@@ -22,9 +22,10 @@ class SearchResults extends React.Component {
 	};
 	render() {
 		return (
-			<List animated verticalAlign='middle' relaxed celled>
+			<List animated verticalAlign='middle' relaxed celled >
 				{this.props.searchResults.length !== 0
-					? this.props.searchResults.map(rest => <List.Item><Image avatar src={rest.logo} /><List.Content><List.Header>{rest.name}</List.Header><List.Description>{rest.motto.slice(0,30)+'...'}</List.Description></List.Content></List.Item>)
+					? this.props.searchResults.map(rest => <List.Item><Image src={rest.logo} size='mini'/><List.Content><List.Header>{rest.name} ({rest.number_of_orders})</List.Header><List.Description>
+						Rating: <Rating defaultRating={rest.rating} maxRating={10} disabled /></List.Description></List.Content></List.Item>)
 					: "No Results"}
 			</List>
 		);

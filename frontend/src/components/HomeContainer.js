@@ -4,19 +4,27 @@ import Navbar from "./Navbar";
 import SearchResults from "./SearchResults";
 import Gmap from "./Gmap";
 import Logout from "./Logout";
-import {Grid} from 'semantic-ui-react'
+import {Grid, Transition} from 'semantic-ui-react'
 
 
 class HomeContainer extends React.Component {
+	state = {
+		visible: false
+	}
+	componentDidMount() {
+		setTimeout(this.setState({visible: true}), 2000)
+	}
+
 	render() {
 		return (
 			<div>
-				<Navbar />
+					<Navbar />
 				<Grid stackable>
 				<Grid.Column width={8}>
 				<SearchResults /></Grid.Column>
 				<Grid.Column width={8}><Gmap /></Grid.Column>
 				</Grid>
+	
 			</div>
 		);
 	}

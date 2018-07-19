@@ -3,10 +3,10 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users
   def index
-    # @users = User.all
+    @users = User.all
 
-    # render json: @users
-    render json: current_user
+    render json: @users
+    
   end
 
   # GET /users/1
@@ -40,7 +40,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def check
-    render json: {active: true}
+    render json: current_user
   end
 
   private
