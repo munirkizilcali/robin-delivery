@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
+import { myFetch } from "../lib/myFetch";
 import { addResults } from "../redux/actions/searchResults";
 
 class SearchResults extends React.Component {
@@ -13,11 +14,11 @@ class SearchResults extends React.Component {
 	}
 
 	componentDidMount = () => {
-		// fetch("http://localhost:3000/api/v1/restaurants")
-		// 	.then(resp => resp.json())
-		// 	.then(json => {
-		// 		this.props.addResults(json);
-		// 	});
+		myFetch("/restaurants")
+			.then(resp => resp.json())
+			.then(json => {
+				this.props.addResults(json);
+			});
 	};
 	render() {
 		return (
@@ -38,7 +39,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-	return bindActionCreators({ addResults: addResults }, dispatch);
+	return {
+		addResults: json => dispatch(addResults(json))
+	};
 };
 export default connect(
 	mapStateToProps,

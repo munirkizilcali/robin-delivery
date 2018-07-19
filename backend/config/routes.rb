@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 		  resources :menu_items
 		  resources :restaurants
 		  resources :users, only: [:index]
+		  get '/users/check' => 'users#check'
 		  post 'user_token' => 'user_token#create'
 		end
 	end
