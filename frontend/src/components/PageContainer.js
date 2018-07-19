@@ -4,18 +4,9 @@ import { connect } from "react-redux";
 import Login from "./Login";
 import HomeContainer from "./HomeContainer";
 import { fetchUserData } from "../redux/actions/user";
-import { checkTokenValidity } from "../redux/actions/login";
 
 class PageContainer extends React.Component {
 	componentDidMount() {
-		debugger;
-		if (!!localStorage.token) {
-			this.props
-				.checkTokenValidity()
-				.then(() => this.props.fetchUserData());
-		}
-	}
-	componentDidUpdate() {
 		this.props.fetchUserData();
 	}
 
@@ -40,8 +31,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		fetchUserData: () => dispatch(fetchUserData()),
-		checkTokenValidity: () => dispatch(checkTokenValidity())
+		fetchUserData: () => dispatch(fetchUserData())
 	};
 };
 

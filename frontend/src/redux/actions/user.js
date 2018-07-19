@@ -1,4 +1,4 @@
-// import { checkToken } from "../../lib/login";
+import { setLoginSuccess } from "./login";
 import { myFetch } from "../../lib/myFetch";
 
 export const saveUserInfo = user => {
@@ -12,9 +12,9 @@ export const fetchUserData = () => {
 			.then(res => res.json())
 			.then(json => {
 				dispatch(saveUserInfo(json));
+				dispatch(setLoginSuccess(true));
+				return Promise.resolve(true);
 			})
-			.catch(err => {
-				return err;
-			});
+			.catch(err => Promise.reject(false));
 	};
 };
