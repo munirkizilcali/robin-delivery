@@ -19,7 +19,6 @@ export function myFetch(url, options = {}) {
         }
       };
     } else {
-      debugger;
       return Promise.reject(new Error("No Token Info Found"));
     }
   }

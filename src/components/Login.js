@@ -1,9 +1,10 @@
 import React from "react";
-import { Button, Form, Input } from "semantic-ui-react";
+import { Button, Form, Input, Grid, Image } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import { login } from "../redux/actions/login";
+import logoFull from '../assets/logo_full.png'
 
 class Login extends React.Component {
 	constructor(props) {
@@ -25,8 +26,13 @@ class Login extends React.Component {
 
 	render() {
 		return (
-			<div>
-				{" "}
+			<Grid padded verticalAlign='middle' centered >
+			<Grid.Row>
+			<Grid.Column mobile={13} tablet={6} computer={4} >
+				<Image src={logoFull} size='small' centered /></Grid.Column>
+			</Grid.Row><Grid.Row>
+			<Grid.Column mobile={13} tablet={6} computer={4} streched >
+				
 				<Form onSubmit={this.handleSubmit}>
 					<Form.Field>
 						<Input
@@ -55,7 +61,8 @@ class Login extends React.Component {
 				{this.props.loginError && (
 					<div>{this.props.loginError.message}</div>
 				)}
-			</div>
+				</Grid.Column></Grid.Row>
+			</Grid>
 		);
 	}
 }
