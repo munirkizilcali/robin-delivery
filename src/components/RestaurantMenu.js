@@ -2,8 +2,15 @@ import React from "react";
 import { connect } from "react-redux";
 import { Menu, Label, Icon } from "semantic-ui-react";
 
+import ItemDetails from "./ItemDetails";
+import { fetchItemData } from "../redux/actions/menuItem";
+
 class RestaurantMenu extends React.Component {
 	componentDidMount() {}
+
+	handleItemDetailsClick = id => {
+		this.props.fetchItemData(id);
+	};
 
 	render() {
 		const item_types = [
@@ -18,28 +25,54 @@ class RestaurantMenu extends React.Component {
 		});
 
 		return (
-			<Menu vertical fluid>
-				{item_types.map(type => {
-					return (
-						<Menu.Item>
-							{type}
-							<Menu.Menu>
-								{items[type].map(item => (
-									<Menu.Item>
-										{item.name}
+			<div>
+				<Menu vertical fluid>
+					{item_types.map(type => {
+						return (
+							<Menu.Item>
+								{type}
+								<Menu.Menu>
+									{items[type].map(item => (
+										<Menu.Item>
+											<a
+												onClick={() =>
+													this.handleItemDetailsClick(
+														item.id
+													)
+												}
+											>
+												{item.name}
+											</a>
 
-										<Icon name="plus" />
-
-										<Label>1</Label>
-									</Menu.Item>
-								))}
-							</Menu.Menu>
-						</Menu.Item>
-					);
-				})}
-			</Menu>
+											<Label>+</Label>
+											<Label>0</Label>
+											<Label>-</Label>
+										</Menu.Item>
+									))}
+								</Menu.Menu>
+							</Menu.Item>
+						);
+					})}
+				</Menu>
+				<ItemDetails selectedMenuItem={this.props.selectedMenuItem} />
+			</div>
 		);
 	}
 }
 
-export default RestaurantMenu;
+const mapStateToProps = state => {
+	return {
+		selectedMenuItem: state.selectedMenuItem
+	};
+};
+
+const mapDispatchToProps = dispatch => {
+	return {
+		fetchItemData: id => dispatch(fetchItemData(id))
+	};
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(RestaurantMenu);
