@@ -4,9 +4,13 @@ import { Menu, Label, Icon } from "semantic-ui-react";
 
 import ItemDetails from "./ItemDetails";
 import MenuItem from "./MenuItem";
+import CartSummary from "./CartSummary";
+import { resetRestaurantInfo } from "../redux/actions/restaurant";
 
 class RestaurantMenu extends React.Component {
 	componentDidMount() {}
+
+	componentDidUpdate(prevProps) {}
 
 	render() {
 		const item_types = [
@@ -25,16 +29,17 @@ class RestaurantMenu extends React.Component {
 				<Menu vertical fluid>
 					{item_types.map(type => {
 						return (
-							<Menu.Item>
+							<Menu.Item key={type}>
 								{type}
-								<Menu.Menu>
+								<Menu.Menu key={type + "menu"}>
 									{items[type].map(item => (
-										<MenuItem item={item} />
+										<MenuItem item={item} key={item.id} />
 									))}
 								</Menu.Menu>
 							</Menu.Item>
 						);
 					})}
+					{this.props.cart.length !== 0 ? <CartSummary /> : ""}
 				</Menu>
 				<ItemDetails selectedMenuItem={this.props.selectedMenuItem} />
 			</div>
@@ -44,12 +49,15 @@ class RestaurantMenu extends React.Component {
 
 const mapStateToProps = state => {
 	return {
-		selectedMenuItem: state.selectedMenuItem
+		selectedMenuItem: state.selectedMenuItem,
+		cart: state.cart
 	};
 };
 
 const mapDispatchToProps = dispatch => {
-	return {};
+	return {
+		resetRestaurantInfo: () => dispatch(resetRestaurantInfo())
+	};
 };
 
 export default connect(

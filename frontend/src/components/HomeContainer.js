@@ -1,5 +1,6 @@
 import React from "react";
 import { Grid } from "semantic-ui-react";
+import { connect } from "react-redux";
 
 import Navbar from "./Navbar";
 import SearchResults from "./SearchResults";
@@ -24,7 +25,11 @@ class HomeContainer extends React.Component {
 						<SearchResults />
 					</Grid.Column>
 					<Grid.Column width={8}>
-						<RestaurantDetails id={2} />
+						{this.props.restaurantSelectedBool ? (
+							<RestaurantDetails />
+						) : (
+							""
+						)}
 					</Grid.Column>
 				</Grid>
 			</div>
@@ -32,4 +37,9 @@ class HomeContainer extends React.Component {
 	}
 }
 
-export default HomeContainer;
+const mapStateToProps = state => {
+	return {
+		restaurantSelectedBool: !!state.selectedRestaurant.id
+	};
+};
+export default connect(mapStateToProps)(HomeContainer);

@@ -31,7 +31,7 @@ class MenuItem extends React.Component {
 	render() {
 		return (
 			<div>
-				<Menu.Item>
+				<Menu.Item active={!!this.state.count}>
 					<a
 						onClick={() =>
 							this.handleItemDetailsClick(this.props.item.id)
@@ -46,7 +46,10 @@ class MenuItem extends React.Component {
 					>
 						+
 					</Label>
-					<Label>{this.state.count}</Label>
+					<Label color={this.state.count > 0 ? "green" : "grey"}>
+						{" "}
+						{this.state.count}
+					</Label>
 					<Label
 						as="button"
 						onClick={() =>
