@@ -3,14 +3,10 @@ import { connect } from "react-redux";
 import { Menu, Label, Icon } from "semantic-ui-react";
 
 import ItemDetails from "./ItemDetails";
-import { fetchItemData } from "../redux/actions/menuItem";
+import MenuItem from "./MenuItem";
 
 class RestaurantMenu extends React.Component {
 	componentDidMount() {}
-
-	handleItemDetailsClick = id => {
-		this.props.fetchItemData(id);
-	};
 
 	render() {
 		const item_types = [
@@ -33,21 +29,7 @@ class RestaurantMenu extends React.Component {
 								{type}
 								<Menu.Menu>
 									{items[type].map(item => (
-										<Menu.Item>
-											<a
-												onClick={() =>
-													this.handleItemDetailsClick(
-														item.id
-													)
-												}
-											>
-												{item.name}
-											</a>
-
-											<Label>+</Label>
-											<Label>0</Label>
-											<Label>-</Label>
-										</Menu.Item>
+										<MenuItem item={item} />
 									))}
 								</Menu.Menu>
 							</Menu.Item>
@@ -67,9 +49,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-	return {
-		fetchItemData: id => dispatch(fetchItemData(id))
-	};
+	return {};
 };
 
 export default connect(
