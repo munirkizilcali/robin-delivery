@@ -32,7 +32,7 @@ class Login extends React.Component {
 					</Grid.Column>
 				</Grid.Row>
 				<Grid.Row>
-					<Grid.Column mobile={13} tablet={6} computer={4} streched>
+					<Grid.Column mobile={13} tablet={6} computer={4}>
 						<Form onSubmit={this.handleSubmit}>
 							<Form.Field>
 								<Input

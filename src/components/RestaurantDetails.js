@@ -2,12 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import { Card, Icon, Image, Rating } from "semantic-ui-react";
 
-import { fetchRestaurantData } from "../redux/actions/restaurant";
 import RestaurantMenu from "./RestaurantMenu";
+import { resetCart } from "../redux/actions/cart";
 
 class RestaurantDetails extends React.Component {
-	componentDidMount() {
-		this.props.fetchRestaurantData(this.props.id);
+	componentDidMount() {}
+
+	componentDidUpdate(previousProps) {
+		if (previousProps.restaurant.id !== this.props.restaurant.id) {
+			this.props.resetCart();
+		}
 	}
 
 	render() {
@@ -18,7 +22,6 @@ class RestaurantDetails extends React.Component {
 						<Image
 							src={this.props.restaurant.logo}
 							rounded
-							square
 							size="tiny"
 						/>
 						{this.props.restaurant.name}
@@ -60,7 +63,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		fetchRestaurantData: id => dispatch(fetchRestaurantData(id))
+		resetCart: () => dispatch(resetCart())
 	};
 };
 

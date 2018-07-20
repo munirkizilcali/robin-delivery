@@ -4,7 +4,7 @@ export const saveRestaurantInfo = restaurant => {
 	return { type: "SAVE_RESTAURANT_INFO", restaurant: restaurant };
 };
 
-export const fetchRestaurantData = (id) => {
+export const fetchRestaurantData = id => {
 	// debugger;
 	return dispatch => {
 		myFetch(`/restaurants/${id}`)
@@ -15,4 +15,8 @@ export const fetchRestaurantData = (id) => {
 			})
 			.catch(err => Promise.reject(false));
 	};
+};
+
+export const resetRestaurantInfo = () => {
+	return { type: "RESET_RESTAURANT_INFO" };
 };
