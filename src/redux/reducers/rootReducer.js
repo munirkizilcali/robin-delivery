@@ -5,13 +5,15 @@ import userReducer from "./userReducer";
 import loginReducer from "./loginReducer";
 import restaurantReducer from "./restaurantReducer";
 import menuItemReducer from "./menuItemReducer";
+import cartReducer from "./cartReducer";
 
 const rootReducer = combineReducers({
 	searchResults: searchResultsReducer,
 	login: loginReducer,
 	user: userReducer,
 	selectedRestaurant: restaurantReducer,
-	selectedMenuItem: menuItemReducer
+	selectedMenuItem: menuItemReducer,
+	cart: cartReducer
 });
 
 export default rootReducer;
