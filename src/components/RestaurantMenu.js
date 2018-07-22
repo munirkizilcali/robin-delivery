@@ -25,8 +25,12 @@ class RestaurantMenu extends React.Component {
 		});
 
 		return (
-			<div>
-				<Menu vertical fluid>
+			<div verticalAlign="top">
+				<Menu
+					vertical
+					fluid
+					style={{ height: "65vh", overflowY: "scroll" }}
+				>
 					{item_types.map(type => {
 						return (
 							<Menu.Item key={type}>
@@ -39,8 +43,16 @@ class RestaurantMenu extends React.Component {
 							</Menu.Item>
 						);
 					})}
-					{this.props.cart.length !== 0 ? <CartSummary /> : ""}
 				</Menu>
+
+				{this.props.cart.length !== 0 ? (
+					<Menu vertical fluid>
+						<CartSummary />
+					</Menu>
+				) : (
+					""
+				)}
+
 				<ItemDetails selectedMenuItem={this.props.selectedMenuItem} />
 			</div>
 		);
