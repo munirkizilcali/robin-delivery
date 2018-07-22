@@ -40,7 +40,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def check
-    render json: current_user
+    render json: current_user, serializer: UserSerializer
   end
 
   private
