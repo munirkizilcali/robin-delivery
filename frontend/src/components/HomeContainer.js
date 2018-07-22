@@ -7,13 +7,14 @@ import SearchResults from "./SearchResults";
 import Gmap from "./Gmap";
 
 import RestaurantDetails from "./RestaurantDetails";
+import { setPosition } from "../redux/actions/location";
 
 class HomeContainer extends React.Component {
 	state = {
 		visible: false
 	};
 	componentDidMount() {
-		setTimeout(this.setState({ visible: true }), 2000);
+		this.props.setPosition();
 	}
 
 	render() {
@@ -42,4 +43,13 @@ const mapStateToProps = state => {
 		restaurantSelectedBool: !!state.selectedRestaurant.id
 	};
 };
-export default connect(mapStateToProps)(HomeContainer);
+
+const mapDispatchToProps = dispatch => {
+	return {
+		setPosition: () => dispatch(setPosition())
+	};
+};
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(HomeContainer);
