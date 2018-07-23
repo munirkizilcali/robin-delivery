@@ -7,15 +7,12 @@ import SearchResults from "./SearchResults";
 import Gmap from "./Gmap";
 
 import RestaurantDetails from "./RestaurantDetails";
-import { setPosition } from "../redux/actions/location";
 
 class HomeContainer extends React.Component {
 	state = {
 		visible: false
 	};
-	componentDidMount() {
-		this.props.setPosition();
-	}
+	componentDidMount() {}
 
 	render() {
 		return (
@@ -45,9 +42,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-	return {
-		setPosition: () => dispatch(setPosition())
-	};
+	return {};
 };
 export default connect(
 	mapStateToProps,
