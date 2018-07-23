@@ -45,14 +45,6 @@ class RestaurantMenu extends React.Component {
 					})}
 				</Menu>
 
-				{this.props.cart.length !== 0 ? (
-					<Menu vertical fluid>
-						<CartSummary />
-					</Menu>
-				) : (
-					""
-				)}
-
 				<ItemDetails selectedMenuItem={this.props.selectedMenuItem} />
 			</div>
 		);

@@ -10,8 +10,6 @@ class MenuItem extends React.Component {
 		count: 0
 	};
 
-	componentDidMount() {}
-
 	handleItemDetailsClick = id => {
 		this.props.fetchItemData(id);
 	};
@@ -29,6 +27,10 @@ class MenuItem extends React.Component {
 	};
 
 	render() {
+		const cartItem = this.props.cart.find(
+			cItem => cItem.id === this.props.item.id
+		);
+
 		return (
 			<div>
 				<Menu.Item active={!!this.state.count}>
@@ -46,9 +48,9 @@ class MenuItem extends React.Component {
 					>
 						+
 					</Label>
-					<Label color={this.state.count > 0 ? "green" : "grey"}>
+					<Label color={!!cartItem ? "green" : "grey"}>
 						{" "}
-						{this.state.count}
+						{!!cartItem ? cartItem.count : 0}
 					</Label>
 					<Label
 						as="button"
@@ -65,7 +67,9 @@ class MenuItem extends React.Component {
 }
 
 const mapStateToProps = state => {
-	return {};
+	return {
+		cart: state.cart
+	};
 };
 
 const mapDispatchToProps = dispatch => {
