@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import { List, Image, Rating, Menu, Header } from "semantic-ui-react";
 
 import { myFetch } from "../lib/myFetch";
-import { addResults } from "../redux/actions/searchResults";
+import { addResults, nearbyRestaurants } from "../redux/actions/searchResults";
 import { fetchRestaurantData } from "../redux/actions/restaurant";
+import { setPosition } from "../redux/actions/location";
 
 class SearchResults extends React.Component {
 	constructor(props) {
@@ -16,11 +17,16 @@ class SearchResults extends React.Component {
 	}
 
 	componentDidMount = () => {
-		myFetch("/restaurants")
-			.then(resp => resp.json())
-			.then(json => {
-				this.props.addResults(json);
-			});
+		// myFetch("/restaurants")
+		// 	.then(resp => resp.json())
+		// 	.then(json => {
+		// 		this.props.addResults(json);
+		// 	});
+		this.props
+			.setPosition()
+			.then(() =>
+				this.props.nearbyRestaurants(this.props.location, 2500)
+			);
 	};
 
 	handleRestaurantClick = restaurant => {
@@ -42,11 +48,10 @@ class SearchResults extends React.Component {
 								onClick={() => this.handleRestaurantClick(rest)}
 								key={rest.id}
 							>
-								<Image src={rest.logo} avatar />
-								{rest.name} ({rest.number_of_orders})
+								{rest.name}
 								<Rating
 									defaultRating={rest.rating}
-									maxRating={10}
+									maxRating={5}
 									disabled
 								/>
 							</Menu.Item>
@@ -60,14 +65,18 @@ class SearchResults extends React.Component {
 // export default SearchResults;
 const mapStateToProps = state => {
 	return {
-		searchResults: state.searchResults
+		searchResults: state.searchResults,
+		location: state.location
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
 		addResults: json => dispatch(addResults(json)),
-		fetchRestaurantData: id => dispatch(fetchRestaurantData(id))
+		fetchRestaurantData: id => dispatch(fetchRestaurantData(id)),
+		nearbyRestaurants: (location, radius) =>
+			dispatch(nearbyRestaurants(location, radius)),
+		setPosition: () => dispatch(setPosition())
 	};
 };
 export default connect(

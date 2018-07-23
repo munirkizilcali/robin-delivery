@@ -29,7 +29,8 @@ class Navbar extends React.Component {
 					active={activeItem === "home"}
 					onClick={this.handleItemClick}
 				>
-					<Icon name="home" size="large" />Find a restaurant
+					<Icon name="location arrow" size="large" />Nearby
+					Restaurants
 				</Menu.Item>
 
 				<Menu.Item
