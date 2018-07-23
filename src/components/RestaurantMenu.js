@@ -25,7 +25,7 @@ class RestaurantMenu extends React.Component {
 		});
 
 		return (
-			<div verticalAlign="top">
+			<div>
 				<Menu
 					vertical
 					fluid
