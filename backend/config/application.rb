@@ -20,6 +20,7 @@ Bundler.require(*Rails.groups)
 Dotenv::Railtie.load
 
 TOKEN_SECRET = ENV['TOKEN_SECRET']
+GOOGLE_API_KEY = ENV['GOOGLE_API_KEY']
 
 module Backend
   class Application < Rails::Application
