@@ -33,7 +33,7 @@ class MenuItem extends React.Component {
 
 		return (
 			<div>
-				<Menu.Item active={!!this.state.count}>
+				<Menu.Item active={!!cartItem}>
 					<a
 						onClick={() =>
 							this.handleItemDetailsClick(this.props.item.id)
