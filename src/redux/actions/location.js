@@ -17,6 +17,13 @@ const setLocation = position => {
 	};
 };
 
+export const setRange = range => {
+	return {
+		type: "SET_RANGE",
+		range: range
+	};
+};
+
 export const setPosition = () => {
 	return dispatch =>
 		getPosition()

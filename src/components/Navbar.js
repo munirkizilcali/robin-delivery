@@ -5,11 +5,20 @@ import logoSquare from "../assets/logo_square.png";
 
 import Logout from "./Logout";
 import CartSummary from "./CartSummary";
+import { setRange } from "../redux/actions/location";
+import { nearbyRestaurants } from "../redux/actions/searchResults";
 
 class Navbar extends React.Component {
 	state = {};
 
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+	handleRangeChange = e => {
+		this.props.setRange(parseFloat(e.target.value));
+		this.props.nearbyRestaurants(
+			this.props.location,
+			parseFloat(e.target.value) * 1609
+		);
+	};
 
 	render() {
 		const { activeItem } = this.state;
@@ -30,7 +39,15 @@ class Navbar extends React.Component {
 					onClick={this.handleItemClick}
 				>
 					<Icon name="location arrow" size="large" />Nearby
-					Restaurants
+					Restaurants (Range: {this.props.range.toFixed(1)} miles)
+					<Input
+						min={0.5}
+						max={5}
+						onChange={this.handleRangeChange}
+						type="range"
+						value={this.props.range}
+						step={0.1}
+					/>
 				</Menu.Item>
 
 				<Menu.Item
@@ -63,8 +80,21 @@ class Navbar extends React.Component {
 
 const mapStateToProps = state => {
 	return {
-		cart: state.cart
+		cart: state.cart,
+		range: state.location.range,
+		location: state.location
 	};
 };
 
-export default connect(mapStateToProps)(Navbar);
+const mapDispatchToProps = dispatch => {
+	return {
+		setRange: range => dispatch(setRange(range)),
+		nearbyRestaurants: (location, range) =>
+			dispatch(nearbyRestaurants(location, range))
+	};
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Navbar);
