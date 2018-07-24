@@ -4,6 +4,8 @@ class Restaurant < ApplicationRecord
 	has_many :reviews, through: :orders
 	has_many :users, through: :orders
 
+	has_one_attached :photo
+
 	def rating
 		total_rating = 0
 
@@ -20,6 +22,15 @@ class Restaurant < ApplicationRecord
 
 	def number_of_orders
 		self.orders.length
+	end
+
+	def photo_url
+		begin
+			Rails.application.routes.url_for(controller: 'active_storage/blobs', action: :show, signed_id: self.photo.signed_id, filename: self.photo.filename, host: Rails.application.routes.default_url_options[:host])
+		rescue
+			'NonPhoto'
+		end
+
 	end
 
 end

@@ -31,7 +31,7 @@ class SearchResults extends React.Component {
 
 	handleRestaurantClick = restaurant => {
 		this.setState({ activeRest: restaurant });
-		this.props.fetchRestaurantData(restaurant.id);
+		this.props.fetchRestaurantData(restaurant.place_id);
 	};
 	render() {
 		return (
@@ -48,9 +48,16 @@ class SearchResults extends React.Component {
 								onClick={() => this.handleRestaurantClick(rest)}
 								key={rest.id}
 							>
-								{rest.name}
+								{rest.name} - Rating:
 								<Rating
 									defaultRating={rest.rating}
+									maxRating={5}
+									disabled
+									icon="heart"
+								/>{" "}
+								- Price Level:
+								<Rating
+									defaultRating={rest.price_level}
 									maxRating={5}
 									disabled
 								/>
