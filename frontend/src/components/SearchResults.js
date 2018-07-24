@@ -17,15 +17,13 @@ class SearchResults extends React.Component {
 	}
 
 	componentDidMount = () => {
-		// myFetch("/restaurants")
-		// 	.then(resp => resp.json())
-		// 	.then(json => {
-		// 		this.props.addResults(json);
-		// 	});
 		this.props
 			.setPosition()
 			.then(() =>
-				this.props.nearbyRestaurants(this.props.location, 2500)
+				this.props.nearbyRestaurants(
+					this.props.location,
+					this.props.location.range * 1609
+				)
 			);
 	};
 
@@ -48,7 +46,7 @@ class SearchResults extends React.Component {
 								onClick={() => this.handleRestaurantClick(rest)}
 								key={rest.id}
 							>
-								{rest.name} - Rating:
+								<Header as="h5">{rest.name}</Header>Rating:
 								<Rating
 									defaultRating={rest.rating}
 									maxRating={5}

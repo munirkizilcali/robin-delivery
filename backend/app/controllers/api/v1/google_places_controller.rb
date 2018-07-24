@@ -32,7 +32,7 @@ class Api::V1::GooglePlacesController < ApplicationController
 	  		restaurant.google_rating = place_details['result']['rating']
 	  		restaurant.price_level = place_details['result']['price_level']
 	  		(rand(7)+3).times do
-	  			restaurant.menu_items.create({name: beers[rand(beers.length)], calories: rand(200)+100, ingredients: "Malt: #{Faker::Beer.malts}, Alcohol: #{Faker::Beer.alcohol}, Yeast:#{Faker::Beer.yeast}", price: rand(5)+3+(restaurant.price_level ? restaurant.price_level : 0), item_type: 'Beers', vegetarian:true, vegan:true, description: Faker::Beer.style, photo_url:'https://picsum.photos/200/?random'})
+	  			restaurant.menu_items.create({name: beers[rand(beers.length)], calories: rand(200)+100, ingredients: "Malt: #{Faker::Beer.malts}, Alcohol: #{Faker::Beer.alcohol}, Yeast: #{Faker::Beer.yeast}", price: rand(5)+3+(restaurant.price_level ? restaurant.price_level : 0), item_type: 'Beers', vegetarian:true, vegan:true, description: Faker::Beer.style, photo_url:'https://picsum.photos/200/?random'})
 	  		end
 	  		(rand(7)+3).times do
 	  			selected_salad = salads[rand(salads.length)]
