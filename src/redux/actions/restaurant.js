@@ -7,7 +7,7 @@ export const saveRestaurantInfo = restaurant => {
 export const fetchRestaurantData = id => {
 	// debugger;
 	return dispatch => {
-		myFetch(`/restaurants/${id}`)
+		myFetch(`/google_places/by_id/${id}`)
 			.then(res => res.json())
 			.then(json => {
 				dispatch(saveRestaurantInfo(json));

@@ -17,21 +17,34 @@ class RestaurantDetails extends React.Component {
 	render() {
 		return (
 			<Card centered fluid>
-				<Card.Content>
-					<Card.Header>
+				<figure
+					style={{
+						overflow: "hidden",
+						margin: 0
+					}}
+				>
+					{this.props.restaurant.photo_url !== "NonPhoto" ? (
 						<Image
-							src={this.props.restaurant.logo}
+							src={this.props.restaurant.photo_url}
 							rounded
-							size="tiny"
+							style={{
+								display: "block",
+								width: "100%",
+								margin: "-15.875% 0"
+							}}
 						/>
-						{this.props.restaurant.name}
-					</Card.Header>
+					) : (
+						""
+					)}
+				</figure>
+				<Card.Content>
+					<Card.Header>{this.props.restaurant.name}</Card.Header>
 					<Card.Meta>
 						<span className="date">
 							<Icon name="food" /> {this.props.restaurant.cuisine}
 						</span>{" "}
 						<Rating
-							defaultRating={this.props.restaurant.rating}
+							defaultRating={this.props.restaurant.google_rating}
 							maxRating={5}
 							disabled
 							icon="heart"
