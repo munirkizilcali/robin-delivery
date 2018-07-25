@@ -8,7 +8,7 @@ export const saveUserInfo = user => {
 export const fetchUserData = () => {
 	// debugger;
 	return dispatch => {
-		myFetch("/users/check")
+		return myFetch("/users/check")
 			.then(res => res.json())
 			.then(json => {
 				dispatch(saveUserInfo(json));

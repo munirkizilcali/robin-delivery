@@ -1,7 +1,7 @@
 class Api::V1::GooglePlacesController < ApplicationController
 
   def index
-    output = GooglePlace.nearby_restaurants(params[:lat], params[:lng], params[:radius])
+    output = GooglePlace.nearby_restaurants(params[:lat], params[:lng], params[:radius], params[:search_term], params[:next_token])
     render json: output
   end
 

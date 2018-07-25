@@ -7,6 +7,9 @@ import restaurantReducer from "./restaurantReducer";
 import menuItemReducer from "./menuItemReducer";
 import cartReducer from "./cartReducer";
 import locationReducer from "./locationReducer";
+import recentOrdersReducer from "./recentOrdersReducer";
+import searchReducer from "./searchReducer";
+import nextTokenReducer from "./nextTokenReducer";
 
 const rootReducer = combineReducers({
 	searchResults: searchResultsReducer,
@@ -15,7 +18,10 @@ const rootReducer = combineReducers({
 	selectedRestaurant: restaurantReducer,
 	selectedMenuItem: menuItemReducer,
 	cart: cartReducer,
-	location: locationReducer
+	location: locationReducer,
+	recentOrders: recentOrdersReducer,
+	searchTerm: searchReducer,
+	nextToken: nextTokenReducer
 });
 
 export default rootReducer;

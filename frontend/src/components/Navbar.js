@@ -5,20 +5,14 @@ import logoSquare from "../assets/logo_square.png";
 
 import Logout from "./Logout";
 import CartSummary from "./CartSummary";
-import { setRange } from "../redux/actions/location";
 import { nearbyRestaurants } from "../redux/actions/searchResults";
+import SearchBar from "./SearchBar";
+import RangeSlider from "./RangeSlider";
 
 class Navbar extends React.Component {
 	state = {};
 
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
-	handleRangeChange = e => {
-		this.props.setRange(parseFloat(e.target.value));
-		this.props.nearbyRestaurants(
-			this.props.location,
-			parseFloat(e.target.value) * 1609
-		);
-	};
 
 	render() {
 		const { activeItem } = this.state;
@@ -33,22 +27,7 @@ class Navbar extends React.Component {
 					<Image src={logoSquare} size="mini" />
 				</Menu.Item>
 
-				<Menu.Item
-					name="home"
-					active={activeItem === "home"}
-					onClick={this.handleItemClick}
-				>
-					<Icon name="location arrow" size="large" />Nearby
-					Restaurants (Range: {this.props.range.toFixed(1)} miles)
-					<Input
-						min={0.5}
-						max={5}
-						onChange={this.handleRangeChange}
-						type="range"
-						value={this.props.range}
-						step={0.1}
-					/>
-				</Menu.Item>
+				<RangeSlider />
 
 				<Menu.Item
 					name="recentOrders"
@@ -59,12 +38,7 @@ class Navbar extends React.Component {
 				</Menu.Item>
 				<Menu.Menu position="right">
 					{<CartSummary />}
-					<Menu.Item>
-						<Input
-							icon="search"
-							placeholder="Search for a restaurant"
-						/>
-					</Menu.Item>
+					<SearchBar />
 					<Menu.Item
 						name="logout"
 						active={activeItem === "logout"}
@@ -82,15 +56,15 @@ const mapStateToProps = state => {
 	return {
 		cart: state.cart,
 		range: state.location.range,
-		location: state.location
+		location: state.location,
+		searchTerm: state.searchTerm
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		setRange: range => dispatch(setRange(range)),
-		nearbyRestaurants: (location, range) =>
-			dispatch(nearbyRestaurants(location, range))
+		nearbyRestaurants: (location, range, searchTerm) =>
+			dispatch(nearbyRestaurants(location, range, searchTerm))
 	};
 };
 

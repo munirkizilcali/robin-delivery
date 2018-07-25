@@ -4,15 +4,22 @@ import { connect } from "react-redux";
 import Login from "./Login";
 import HomeContainer from "./HomeContainer";
 import { fetchUserData } from "../redux/actions/user";
+import { fetchRecentOrders } from "../redux/actions/recentOrders";
 
 class PageContainer extends React.Component {
 	componentDidMount() {
-		this.props.fetchUserData();
+		this.props.fetchUserData().then(() => this.props.fetchRecentOrders());
 	}
 
 	render() {
+		let ht = `${window.innerHeight}px`;
 		return (
-			<div>
+			<div
+				style={{
+					height: ht,
+					overflowY: "auto"
+				}}
+			>
 				{!!localStorage.token && this.props.loggedIn ? (
 					<HomeContainer />
 				) : (
@@ -31,7 +38,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		fetchUserData: () => dispatch(fetchUserData())
+		fetchUserData: () => dispatch(fetchUserData()),
+		fetchRecentOrders: () => dispatch(fetchRecentOrders())
 	};
 };
 

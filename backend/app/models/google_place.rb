@@ -5,8 +5,15 @@ require "image_processing/mini_magick"
 
 class GooglePlace < ApplicationRecord
 
-	def self.nearby_restaurants(lat, lng, radius)
-		res = RestClient.get 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?', params: {key: GOOGLE_API_KEY, type: 'restaurant', location: "#{lat},#{lng}", radius: radius}
+	def self.nearby_restaurants(lat, lng, radius, search_term, next_token)
+		if next_token == 'nO0n'
+			res = RestClient.get "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=#{GOOGLE_API_KEY}&type=restaurant&location=#{lat},#{lng}&radius=#{radius}#{search_term == 'nO0n' ? '' : '&keyword='+search_term}"
+		else 
+			res = RestClient.get "https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=#{next_token}&key=#{GOOGLE_API_KEY}"
+		end
+			# "https://api.yelp.com/v3/businesses/search?latitude=#{lat}&longitude=#{lng}&categories=restaurants&radius=#{radius}&sort_by=distance&limit=50&term=#{search_term == 'nO0n' ? '' : search_term}", headers: {:Authorization => 'Bearer K9diKEJeeOCKJ02CJNJvr2QHzUl48-BJyGg7q8MfuBwvyWEIowm0VPOETH2DmtCTaGQBl5Ubpq9dBEg_JQhusNKDIfKbuZsUw2pkQ4sEm5HJoS5oTVkN7Oqgb6ZYW3Yx'}
+			# debugger
+			# "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=#{GOOGLE_API_KEY}&type=restaurant&location=#{lat},#{lng}&radius=#{radius}#{search_term == 'nO0n' ? '' : search_term}"
 		JSON.parse(res.body)
 	end
 
