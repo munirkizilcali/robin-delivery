@@ -41,7 +41,7 @@ class RestaurantDetails extends React.Component {
 					<Card.Header>{this.props.restaurant.name}</Card.Header>
 					<Card.Meta>
 						<span className="date">
-							<Icon name="food" /> {this.props.restaurant.cuisine}
+							<Icon name="food" /> {this.props.restaurant.address}
 						</span>{" "}
 						<Rating
 							defaultRating={this.props.restaurant.google_rating}

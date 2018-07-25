@@ -39,7 +39,9 @@ class MenuItem extends React.Component {
 							this.handleItemDetailsClick(this.props.item.id)
 						}
 					>
-						{this.props.item.name} - ${this.props.item.price}
+						{this.props.item.name.slice(0, 40)} - ${
+							this.props.item.price
+						}
 					</a>
 
 					<Label

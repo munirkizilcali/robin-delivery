@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 import Navbar from "./Navbar";
 import SearchResults from "./SearchResults";
 import Gmap from "./Gmap";
-
 import RestaurantDetails from "./RestaurantDetails";
+import RecentOrders from "./RecentOrders";
 
 class HomeContainer extends React.Component {
 	state = {
@@ -15,20 +15,39 @@ class HomeContainer extends React.Component {
 	componentDidMount() {}
 
 	render() {
+		let ht = `${window.innerHeight}px`;
 		return (
-			<div>
-				<Navbar />
-				<Grid stackable>
-					<Grid.Column width={8}>
-						<SearchResults />
-					</Grid.Column>
-					<Grid.Column width={8}>
-						{this.props.restaurantSelectedBool ? (
-							<RestaurantDetails />
-						) : (
-							""
-						)}
-					</Grid.Column>
+			<div
+				style={{
+					height: ht,
+					overflowY: "auto"
+				}}
+			>
+				<Grid>
+					<Grid.Row>
+						<Grid.Column>
+							<Navbar />
+						</Grid.Column>
+					</Grid.Row>
+					<Grid.Row style={{ height: "100%" }}>
+						<Grid.Column>
+							<Grid stackable fluid>
+								<Grid.Column width={5}>
+									<SearchResults />
+								</Grid.Column>
+								<Grid.Column width={5}>
+									{this.props.restaurantSelectedBool ? (
+										<RestaurantDetails />
+									) : (
+										""
+									)}
+								</Grid.Column>
+								<Grid.Column width={6}>
+									<RecentOrders />
+								</Grid.Column>
+							</Grid>
+						</Grid.Column>
+					</Grid.Row>
 				</Grid>
 			</div>
 		);

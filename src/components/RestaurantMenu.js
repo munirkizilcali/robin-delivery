@@ -29,7 +29,7 @@ class RestaurantMenu extends React.Component {
 				<Menu
 					vertical
 					fluid
-					style={{ height: "65vh", overflowY: "scroll" }}
+					style={{ height: "60vh", overflowY: "scroll" }}
 				>
 					{item_types.map(type => {
 						return (
