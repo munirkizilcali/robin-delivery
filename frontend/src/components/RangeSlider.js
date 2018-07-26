@@ -18,8 +18,6 @@ class RangeSlider extends React.Component {
 	};
 
 	render() {
-		const { activeItem } = this.state;
-
 		return (
 			<Menu.Item>
 				<Icon name="location arrow" size="large" />Nearby Restaurants
