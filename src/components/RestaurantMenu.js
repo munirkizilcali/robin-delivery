@@ -1,10 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Menu, Label, Icon } from "semantic-ui-react";
+import { Menu } from "semantic-ui-react";
 
 import ItemDetails from "./ItemDetails";
 import MenuItem from "./MenuItem";
-import CartSummary from "./CartSummary";
 import { resetRestaurantInfo } from "../redux/actions/restaurant";
 
 class RestaurantMenu extends React.Component {

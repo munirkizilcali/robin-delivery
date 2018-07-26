@@ -7,6 +7,7 @@ import SearchResults from "./SearchResults";
 import Gmap from "./Gmap";
 import RestaurantDetails from "./RestaurantDetails";
 import RecentOrders from "./RecentOrders";
+import OrderDetails from "./OrderDetails";
 
 class HomeContainer extends React.Component {
 	state = {
@@ -15,14 +16,8 @@ class HomeContainer extends React.Component {
 	componentDidMount() {}
 
 	render() {
-		let ht = `${window.innerHeight}px`;
 		return (
-			<div
-				style={{
-					height: ht,
-					overflowY: "auto"
-				}}
-			>
+			<div>
 				<Grid>
 					<Grid.Row>
 						<Grid.Column>
@@ -31,7 +26,7 @@ class HomeContainer extends React.Component {
 					</Grid.Row>
 					<Grid.Row style={{ height: "100%" }}>
 						<Grid.Column>
-							<Grid stackable fluid>
+							<Grid stackable>
 								<Grid.Column width={5}>
 									<SearchResults />
 								</Grid.Column>
@@ -43,7 +38,12 @@ class HomeContainer extends React.Component {
 									)}
 								</Grid.Column>
 								<Grid.Column width={6}>
-									<RecentOrders />
+									<Grid.Row>
+										<RecentOrders />
+									</Grid.Row>
+									<Grid.Row>
+										<OrderDetails orderId={1} />
+									</Grid.Row>
 								</Grid.Column>
 							</Grid>
 						</Grid.Column>

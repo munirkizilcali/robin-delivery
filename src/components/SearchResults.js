@@ -1,9 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import { List, Image, Rating, Menu, Header, Dropdown } from "semantic-ui-react";
+import { Rating, Menu, Header, Dropdown } from "semantic-ui-react";
 import { sortBy } from "lodash";
 
-import { myFetch } from "../lib/myFetch";
 import { addResults, nearbyRestaurants } from "../redux/actions/searchResults";
 import { fetchRestaurantData } from "../redux/actions/restaurant";
 import { setPosition } from "../redux/actions/location";
@@ -86,7 +85,6 @@ class SearchResults extends React.Component {
 				pointing
 				vertical
 				fluid
-				verticalAlign="top"
 				style={{
 					height: "100%",
 					overflowY: "scroll"

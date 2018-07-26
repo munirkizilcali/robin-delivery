@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Image, Icon, Input } from "semantic-ui-react";
+import { Menu, Image, Icon, Dropdown } from "semantic-ui-react";
 import { connect } from "react-redux";
 import logoSquare from "../assets/logo_square.png";
 
@@ -8,6 +8,7 @@ import CartSummary from "./CartSummary";
 import { nearbyRestaurants } from "../redux/actions/searchResults";
 import SearchBar from "./SearchBar";
 import RangeSlider from "./RangeSlider";
+import RecentOrders from "./RecentOrders";
 
 class Navbar extends React.Component {
 	state = {};
@@ -29,13 +30,19 @@ class Navbar extends React.Component {
 
 				<RangeSlider />
 
-				<Menu.Item
+				<Dropdown
+					closeOnBlur={false}
+					item
 					name="recentOrders"
 					active={activeItem === "recentOrders"}
 					onClick={this.handleItemClick}
+					icon="history large"
+					text="Recent Orders "
 				>
-					<Icon name="history" size="large" /> Recent Orders
-				</Menu.Item>
+					<Dropdown.Menu>
+						<RecentOrders />
+					</Dropdown.Menu>
+				</Dropdown>
 				<Menu.Menu position="right">
 					{<CartSummary />}
 					<SearchBar />
