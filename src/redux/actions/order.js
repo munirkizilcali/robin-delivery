@@ -1,6 +1,7 @@
 import { myFetch } from "../../lib/myFetch";
 import moment from "moment";
 import { resetCart } from "./cart";
+import { fetchRecentOrders } from "./recentOrders";
 
 export const submitOrder = (user, cart, restaurant) => {
 	let order = {
@@ -45,6 +46,31 @@ export const submitOrder = (user, cart, restaurant) => {
 				return Promise.resolve(true);
 			})
 			.then(() => dispatch(resetCart()))
+
+			.catch(err => {
+				// debugger;
+				return Promise.reject(false);
+			});
+	};
+};
+
+export const submitTip = (orderId, tipAmount) => {
+	let order = {
+		tip_amount: tipAmount
+	};
+	return dispatch => {
+		return myFetch(`/orders/${orderId}`, {
+			method: "PATCH",
+			body: JSON.stringify(order)
+		})
+			.then(res => {
+				// debugger;
+				return res.json();
+			})
+			.then(json => {
+				return Promise.resolve(true);
+			})
+			.then(() => dispatch(fetchRecentOrders()))
 			.catch(err => {
 				// debugger;
 				return Promise.reject(false);
