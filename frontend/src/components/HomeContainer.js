@@ -27,22 +27,19 @@ class HomeContainer extends React.Component {
 					<Grid.Row style={{ height: "100%" }}>
 						<Grid.Column>
 							<Grid stackable>
-								<Grid.Column width={5}>
+								<Grid.Column width={1}>
 									<SearchResults />
 								</Grid.Column>
-								<Grid.Column width={5}>
+								<Grid.Column width={1}>
 									{this.props.restaurantSelectedBool ? (
 										<RestaurantDetails />
 									) : (
 										""
 									)}
 								</Grid.Column>
-								<Grid.Column width={6}>
+								<Grid.Column width={14}>
 									<Grid.Row>
 										<RecentOrders />
-									</Grid.Row>
-									<Grid.Row>
-										<OrderDetails orderId={1} />
 									</Grid.Row>
 								</Grid.Column>
 							</Grid>
