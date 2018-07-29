@@ -1,13 +1,8 @@
 import { myFetch } from "../../lib/myFetch";
+import { fetchUserData } from "./user";
+import { fetchRecentOrders } from "./recentOrders";
 
 export function callLoginApi(email, password, callback) {
-  // setTimeout(() => {
-  //  if (email === "admin@example.com" && password === "admin") {
-  //    return callback(null);
-  //  } else {
-  //    return callback(new Error("Invalid email and password"));
-  //  }
-  // }, 1000);
   const request = {
     auth: { email: email, password: password }
   };
@@ -15,11 +10,9 @@ export function callLoginApi(email, password, callback) {
     body: JSON.stringify(request)
   })
     .then(res => {
-      console.log(res);
       return res.json();
     })
     .then(res => {
-      console.log(res);
       localStorage.setItem("token", res.jwt);
       return callback(null);
     })
@@ -54,8 +47,9 @@ export function login(email, password) {
 
     callLoginApi(email, password, error => {
       if (!error) {
-        dispatch(setLoginSuccess(true));
+        dispatch(fetchUserData()).then(() => dispatch(fetchRecentOrders()));
       } else {
+        debugger;
         dispatch(setLoginError(error));
       }
     });

@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Form, Input, Grid, Image } from "semantic-ui-react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import { login } from "../redux/actions/login";
 import logoFull from "../assets/logo_full.png";
@@ -24,6 +25,13 @@ class Login extends React.Component {
 	};
 
 	render() {
+		const { from } = this.props.location.state || {
+			from: { pathname: "/" }
+		};
+
+		if (this.props.isLoginSuccess) {
+			return <Redirect to={from} />;
+		}
 		return (
 			<Grid padded verticalAlign="middle" centered>
 				<Grid.Row>
@@ -76,7 +84,8 @@ const mapStateToProps = state => {
 	return {
 		isLoginPending: state.login.isLoginPending,
 		isLoginSuccess: state.login.isLoginSuccess,
-		loginError: state.login.loginError
+		loginError: state.login.loginError,
+		referrerPage: state.router.location.pathname
 	};
 };
 

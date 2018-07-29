@@ -4,6 +4,7 @@ import { Menu, Label } from "semantic-ui-react";
 
 import { fetchItemData } from "../redux/actions/menuItem";
 import { addCartItem, removeCartItem } from "../redux/actions/cart";
+import { resetCart } from "../redux/actions/cart";
 
 class MenuItem extends React.Component {
 	state = {
@@ -15,6 +16,12 @@ class MenuItem extends React.Component {
 	};
 
 	handleAddItemClick = item => {
+		if (
+			this.props.cart.length !== 0 &&
+			this.props.cart[0].restaurant_id !== item.restaurant_id
+		) {
+			this.props.resetCart();
+		}
 		this.props.addCartItem(item);
 		this.setState({ count: this.state.count + 1 });
 	};
@@ -39,9 +46,10 @@ class MenuItem extends React.Component {
 							this.handleItemDetailsClick(this.props.item.id)
 						}
 					>
-						{this.props.item.name.slice(0, 40)} - ${
-							this.props.item.price
-						}
+						{this.props.item.name
+							? this.props.item.name.slice(0, 40)
+							: "Untitled"}{" "}
+						- ${this.props.item.price}
 					</a>
 
 					<Label
@@ -78,7 +86,8 @@ const mapDispatchToProps = dispatch => {
 	return {
 		fetchItemData: id => dispatch(fetchItemData(id)),
 		addCartItem: item => dispatch(addCartItem(item)),
-		removeCartItem: item => dispatch(removeCartItem(item))
+		removeCartItem: item => dispatch(removeCartItem(item)),
+		resetCart: () => dispatch(resetCart())
 	};
 };
 

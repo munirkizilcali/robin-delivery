@@ -2,6 +2,7 @@ import React from "react";
 import { Menu, Image, Icon, Dropdown } from "semantic-ui-react";
 import { connect } from "react-redux";
 import logoSquare from "../assets/logo_square.png";
+import { Link } from "react-router-dom";
 
 import Logout from "./Logout";
 import CartSummary from "./CartSummary";
@@ -19,7 +20,7 @@ class Navbar extends React.Component {
 		const { activeItem } = this.state;
 
 		return (
-			<Menu>
+			<Menu stackable>
 				<Menu.Item
 					name="logo"
 					active={activeItem === "logo"}
@@ -29,20 +30,12 @@ class Navbar extends React.Component {
 				</Menu.Item>
 
 				<RangeSlider />
-
-				<Dropdown
-					closeOnBlur={false}
-					item
-					name="recentOrders"
-					active={activeItem === "recentOrders"}
-					onClick={this.handleItemClick}
-					icon="history large"
-					text="Recent Orders "
-				>
-					<Dropdown.Menu>
-						<RecentOrders />
-					</Dropdown.Menu>
-				</Dropdown>
+				<Menu.Item>
+					<Link to="/recentorders">
+						<Icon name="history" size="large" />
+						Recent Orders
+					</Link>
+				</Menu.Item>
 				<Menu.Menu position="right">
 					{<CartSummary />}
 					<SearchBar />

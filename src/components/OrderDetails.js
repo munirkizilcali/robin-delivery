@@ -17,6 +17,7 @@ class OrderDetails extends React.Component {
       cardBgColor: ""
     };
   }
+
   componentDidMount() {
     let iconColor = "";
     let cardBgColor = "";
@@ -51,12 +52,12 @@ class OrderDetails extends React.Component {
           });
           break;
         case "completed":
-          if (!this.props.order.review || this.props.order.tip_amount) {
-            iconColor = "black";
-            cardBgColor = "#ededed";
-          } else {
+          if (!this.props.order.review || !this.props.order.tip_amount) {
             iconColor = "green";
             cardBgColor = "#e8ffe9";
+          } else {
+            iconColor = "black";
+            cardBgColor = "#ededed";
           }
 
           this.setState({
@@ -71,20 +72,97 @@ class OrderDetails extends React.Component {
     }
   }
 
+  static getDerivedStateFromProps(props) {
+    let iconColor = "";
+    let cardBgColor = "";
+    if (props.order) {
+      switch (props.order.status) {
+        case "new":
+          return {
+            icon: "hand point up",
+            iconColor: "yellow",
+            status: "Order Received",
+            description: "Assigning a driver to your order",
+            cardBgColor: "#ffffea"
+          };
+          break;
+        case "courierSet":
+          return {
+            icon: "hotjar",
+            iconColor: "red",
+            status: "Preparing",
+            description: "Driver assigned. Your meal is getting ready.",
+            cardBgColor: "#ffe1e0"
+          };
+          break;
+        case "pickedUp":
+          return {
+            icon: "motorcycle",
+            iconColor: "blue",
+            status: "Picked up",
+            description:
+              "Your order has been picked up. Your meal is on the way.",
+            cardBgColor: "#e1e0ff"
+          };
+          break;
+        case "completed":
+          if (!props.order.review || !props.order.tip_amount) {
+            iconColor = "green";
+            cardBgColor = "#e8ffe9";
+          } else {
+            iconColor = "black";
+            cardBgColor = "#ededed";
+          }
+
+          return {
+            icon: "check",
+            status: "Delivered",
+            description: "Enjoy your meal.",
+            cardBgColor: cardBgColor,
+            iconColor: iconColor
+          };
+          break;
+      }
+    }
+  }
+
   render() {
     return this.props.order ? (
       <Card raised color={this.state.iconColor} style={{ width: "350px" }}>
         <Card.Content style={{ backgroundColor: this.state.cardBgColor }}>
           <Card.Header>
             <Icon name={this.state.icon} color={this.state.iconColor} />
-            {this.props.order.restaurant.name} - ${this.props.order.price}
+            {this.props.order.restaurant.name} - ${this.props.order.price}{" "}
+            {this.props.order.review ? (
+              <span>
+                <Rating icon="star" maxRating={1} defaultRating={1} disabled />
+                {this.props.order.review.restaurant_rating}
+              </span>
+            ) : (
+              ""
+            )}
           </Card.Header>
           <Card.Meta>
             {this.state.status} -{" "}
             {moment(this.props.order.order_time).format("llll")}
           </Card.Meta>
           {this.props.order.courier ? (
-            <Card.Meta>Driver: {this.props.order.courier.first_name}</Card.Meta>
+            <Card.Meta>
+              Driver: {this.props.order.courier.first_name}{" "}
+              {this.props.order.review ? (
+                <span>
+                  <Rating
+                    icon="star"
+                    maxRating={1}
+                    defaultRating={1}
+                    disabled
+                  />
+                  {this.props.order.review.delivery_rating}
+                </span>
+              ) : (
+                ""
+              )}
+            </Card.Meta>
           ) : (
             ""
           )}
@@ -103,7 +181,8 @@ class OrderDetails extends React.Component {
                   <span style={{ "padding-right": "1em" }}>
                     #{meal.number}{" "}
                   </span>{" "}
-                  {meal.menu_item.name}{" "}
+                  {meal.menu_item.name.slice(0, 38)}
+                  {meal.menu_item.name.slice(0, 38).length === 38 ? "..." : ""}
                   <List.Content floated="right">
                     ${meal.price * meal.number}
                   </List.Content>
@@ -140,7 +219,7 @@ class OrderDetails extends React.Component {
             </List>
           </Card.Description>
         </Card.Content>
-        {this.state.iconColor === "black" ? (
+        {this.state.iconColor === "green" ? (
           <Card.Content extra>
             {!this.props.order.tip_amount ? (
               <TipForm order={this.props.order} />

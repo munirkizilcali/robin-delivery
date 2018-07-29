@@ -2,31 +2,42 @@ import React from "react";
 import { Input, Menu } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { debounce } from "lodash";
+import { Redirect } from "react-router-dom";
+import { history } from "../redux/history";
 import {
   setSearchTerm,
   nearbyRestaurants
 } from "../redux/actions/searchResults";
 
-const ItemDetails = props => {
-  let debouncedSearch = debounce((a, b, c) => {
-    props.nearbyRestaurants(a, b, c);
-    props.setSearchTerm(c);
-  }, 500);
+class ItemDetails extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      focus: false
+    };
+    this.debouncedSearch = debounce((a, b, c) => {
+      props.nearbyRestaurants(a, b, c);
+      props.setSearchTerm(c);
+    }, 500);
+  }
 
-  const handleSearchInput = (e, d) => {
-    debouncedSearch(props.location, props.range, d.value);
+  handleSearchInput = (e, d) => {
+    this.debouncedSearch(this.props.location, this.props.range, d.value);
   };
 
-  return (
-    <Menu.Item>
-      <Input
-        icon="search"
-        placeholder="Search for a restaurant"
-        onChange={handleSearchInput}
-      />
-    </Menu.Item>
-  );
-};
+  render() {
+    return (
+      <Menu.Item>
+        <Input
+          icon="search"
+          placeholder="Search for a restaurant"
+          onFocus={history.push("/restaurants")}
+          onChange={this.handleSearchInput}
+        />
+      </Menu.Item>
+    );
+  }
+}
 
 const mapStateToProps = state => {
   return {
