@@ -1,11 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Rating, Menu, Header, Dropdown } from "semantic-ui-react";
+import { Rating, Menu, Header, Dropdown, Card } from "semantic-ui-react";
 import { sortBy } from "lodash";
 
 import { addResults, nearbyRestaurants } from "../redux/actions/searchResults";
-import { fetchRestaurantData } from "../redux/actions/restaurant";
+import {
+	fetchRestaurantData,
+	restaurantView
+} from "../redux/actions/restaurant";
 import { setPosition } from "../redux/actions/location";
+import SimpleRestaurantCard from "./SimpleRestaurantCard";
 
 class SearchResults extends React.Component {
 	constructor(props) {
@@ -46,22 +50,19 @@ class SearchResults extends React.Component {
 	};
 
 	componentDidMount = () => {
-		this.props
-			.setPosition()
-			.then(() =>
-				this.props.nearbyRestaurants(
-					this.props.location,
-					this.props.location.range
-				)
-			);
+		if (this.props.searchResults.length === 0) {
+			this.props
+				.setPosition()
+				.then(() =>
+					this.props.nearbyRestaurants(
+						this.props.location,
+						this.props.location.range
+					)
+				);
+		}
 	};
 	priceLevelOutput = priceLevel =>
 		priceLevel ? "$$$$$$$$".slice(0, priceLevel) : "No Price Info";
-
-	handleRestaurantClick = restaurant => {
-		this.setState({ activeRest: restaurant });
-		this.props.fetchRestaurantData(restaurant.place_id);
-	};
 
 	handleLoadMoreClick = () => {
 		// debugger;
@@ -81,136 +82,110 @@ class SearchResults extends React.Component {
 	};
 	render() {
 		return (
-			<Menu
-				pointing
-				vertical
-				fluid
-				style={{
-					height: "100%",
-					overflowY: "scroll"
-				}}
-			>
-				<Menu.Item>
-					<Dropdown
-						placeholder="Sort by..."
-						fluid
-						selection
-						options={[
-							{
-								text: "Popularity (Asc)",
-								value: " asc",
-								icon: "sort alphabet ascending"
-							},
-							{
-								text: "Popularity (Desc)",
-								value: " desc",
-								icon: "sort alphabet descending"
-							},
-							{
-								text: "Name (Asc)",
-								value: "name asc",
-								icon: "sort alphabet ascending"
-							},
-							{
-								text: "Name (Desc)",
-								value: "name desc",
-								icon: "sort alphabet descending"
-							},
-							{
-								text: "Rating (Asc)",
-								value: "rating asc",
-								icon: "sort numeric ascending"
-							},
+			<div>
+				<Dropdown
+					placeholder="Sort by..."
+					fluid
+					selection
+					options={[
+						{
+							text: "Popularity (Asc)",
+							value: " asc",
+							icon: "sort alphabet ascending"
+						},
+						{
+							text: "Popularity (Desc)",
+							value: " desc",
+							icon: "sort alphabet descending"
+						},
+						{
+							text: "Name (Asc)",
+							value: "name asc",
+							icon: "sort alphabet ascending"
+						},
+						{
+							text: "Name (Desc)",
+							value: "name desc",
+							icon: "sort alphabet descending"
+						},
+						{
+							text: "Rating (Asc)",
+							value: "rating asc",
+							icon: "sort numeric ascending"
+						},
 
-							{
-								text: "Rating (Desc)",
-								value: "rating desc",
-								icon: "sort numeric descending"
-							},
-							{
-								text: "Distance (Asc)",
-								value: "distance asc",
-								icon: "sort numeric ascending"
-							},
-							{
-								text: "Distance (Desc)",
-								value: "distance desc",
-								icon: "sort numeric descending"
-							},
-							{
-								text: "Price (Asc)",
-								value: "price_level asc",
-								icon: "sort numeric ascending"
-							},
-							{
-								text: "Price (Desc)",
-								value: "price_level desc",
-								icon: "sort numeric descending"
-							}
-						]}
-						onChange={this.handleSortChange}
-					/>
-				</Menu.Item>
-				{this.props.searchResults.length !== 0
-					? (this.state.order === "asc"
-							? sortBy(
-									this.props.searchResults,
-									this.state.sortBy !== "distance"
-										? this.state.sortBy
-										: [
-												restaurant =>
-													this.distanceRest(
-														restaurant
-													)
-										  ]
-							  )
-							: sortBy(
-									this.props.searchResults,
-									this.state.sortBy !== "distance"
-										? this.state.sortBy
-										: [
-												restaurant =>
-													this.distanceRest(
-														restaurant
-													)
-										  ]
-							  ).reverse()
-					  ).map(rest => (
-							<Menu.Item
-								active={this.state.activeRest.id === rest.id}
-								onClick={() => this.handleRestaurantClick(rest)}
-								key={rest.id}
-							>
-								<Header as="h5">
-									{rest.name} -{" "}
-									{rest.price_level
-										? this.priceLevelOutput(
-												rest.price_level
-										  )
-										: ""}
-									<Rating
-										defaultRating={rest.rating}
-										maxRating={rest.rating}
-										disabled
-										icon="heart"
-									/>
-									{this.distance(
-										rest.geometry.location.lng,
-										rest.geometry.location.lat
-									)}{" "}
-									miles
-								</Header>
-							</Menu.Item>
-					  ))
-					: "No Results"}
-				{this.props.nextToken !== "" ? (
-					<Menu.Item onClick={() => this.handleLoadMoreClick()}>
-						<Header as="h5">Load More...</Header>
-					</Menu.Item>
-				) : (
-					""
-				)}
-			</Menu>
+						{
+							text: "Rating (Desc)",
+							value: "rating desc",
+							icon: "sort numeric descending"
+						},
+						{
+							text: "Distance (Asc)",
+							value: "distance asc",
+							icon: "sort numeric ascending"
+						},
+						{
+							text: "Distance (Desc)",
+							value: "distance desc",
+							icon: "sort numeric descending"
+						},
+						{
+							text: "Price (Asc)",
+							value: "price_level asc",
+							icon: "sort numeric ascending"
+						},
+						{
+							text: "Price (Desc)",
+							value: "price_level desc",
+							icon: "sort numeric descending"
+						}
+					]}
+					onChange={this.handleSortChange}
+				/>
+				<Card.Group stackable centered style={{ padding: "12px" }}>
+					{this.props.searchResults.length !== 0
+						? (this.state.order === "asc"
+								? sortBy(
+										this.props.searchResults,
+										this.state.sortBy !== "distance"
+											? this.state.sortBy
+											: [
+													restaurant =>
+														this.distanceRest(
+															restaurant
+														)
+											  ]
+								  )
+								: sortBy(
+										this.props.searchResults,
+										this.state.sortBy !== "distance"
+											? this.state.sortBy
+											: [
+													restaurant =>
+														this.distanceRest(
+															restaurant
+														)
+											  ]
+								  ).reverse()
+						  ).map(rest => (
+								<SimpleRestaurantCard
+									restaurant={rest}
+									distance={this.distanceRest(rest)}
+									key={rest.place_id}
+								/>
+						  ))
+						: "No Results"}
+					{this.props.nextToken !== "" ? (
+						<Card onClick={() => this.handleLoadMoreClick()} raised>
+							<Card.Content>
+								<Card.Header>Load More...</Card.Header>
+							</Card.Content>
+						</Card>
+					) : (
+						""
+					)}
+				</Card.Group>
+			</div>
 		);
 	}
 }
@@ -228,6 +203,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		addResults: json => dispatch(addResults(json)),
 		fetchRestaurantData: id => dispatch(fetchRestaurantData(id)),
+		restaurantView: id => dispatch(restaurantView(id)),
 		nearbyRestaurants: (location, radius, searchTerm, nextToken) =>
 			dispatch(
 				nearbyRestaurants(location, radius, searchTerm, nextToken)

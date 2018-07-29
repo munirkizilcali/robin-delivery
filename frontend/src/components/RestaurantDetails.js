@@ -4,14 +4,19 @@ import { Card, Icon, Image, Rating } from "semantic-ui-react";
 
 import RestaurantMenu from "./RestaurantMenu";
 import { resetCart } from "../redux/actions/cart";
+import { fetchRestaurantData } from "../redux/actions/restaurant";
 
 class RestaurantDetails extends React.Component {
-	componentDidMount() {}
+	componentDidMount() {
+		this.props.fetchRestaurantData(this.props.match.params.id);
+	}
 
 	componentDidUpdate(previousProps) {
-		if (previousProps.restaurant.id !== this.props.restaurant.id) {
-			this.props.resetCart();
-		}
+		// if (this.props.cart.length !== 0) {
+		// 	if (previousProps.restaurant.id !== this.props.cart.restaurant_id) {
+		// 		this.props.resetCart();
+		// 	}
+		// }
 	}
 
 	render() {
@@ -30,7 +35,7 @@ class RestaurantDetails extends React.Component {
 							style={{
 								display: "block",
 								width: "100%",
-								margin: "-15.875% 0"
+								margin: "-25.875% 0"
 							}}
 						/>
 					) : (
@@ -38,17 +43,15 @@ class RestaurantDetails extends React.Component {
 					)}
 				</figure>
 				<Card.Content>
-					<Card.Header>{this.props.restaurant.name}</Card.Header>
+					<Card.Header>
+						{this.props.restaurant.name}{" "}
+						<Rating defaultRating={1} maxRating={1} disabled />
+						{this.props.restaurant.google_rating}
+					</Card.Header>
 					<Card.Meta>
 						<span className="date">
 							<Icon name="food" /> {this.props.restaurant.address}
 						</span>{" "}
-						<Rating
-							defaultRating={this.props.restaurant.google_rating}
-							maxRating={5}
-							disabled
-							icon="heart"
-						/>
 					</Card.Meta>
 					<Card.Description>
 						{this.props.restaurant.motto}
@@ -70,13 +73,15 @@ class RestaurantDetails extends React.Component {
 
 const mapStateToProps = state => {
 	return {
-		restaurant: state.selectedRestaurant
+		restaurant: state.selectedRestaurant,
+		cart: state.cart
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		resetCart: () => dispatch(resetCart())
+		resetCart: () => dispatch(resetCart()),
+		fetchRestaurantData: id => dispatch(fetchRestaurantData(id))
 	};
 };
 

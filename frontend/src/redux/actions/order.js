@@ -77,3 +77,29 @@ export const submitTip = (orderId, tipAmount) => {
 			});
 	};
 };
+
+export const submitRating = (orderId, restaurantRating, driverRating) => {
+	let review = {
+		order_id: orderId,
+		restaurant_rating: restaurantRating,
+		delivery_rating: driverRating
+	};
+	return dispatch => {
+		return myFetch(`/reviews`, {
+			method: "POST",
+			body: JSON.stringify(review)
+		})
+			.then(res => {
+				// debugger;
+				return res.json();
+			})
+			.then(json => {
+				return Promise.resolve(true);
+			})
+			.then(() => dispatch(fetchRecentOrders()))
+			.catch(err => {
+				// debugger;
+				return Promise.reject(false);
+			});
+	};
+};

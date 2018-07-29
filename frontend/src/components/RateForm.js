@@ -1,8 +1,10 @@
 import React from "react";
 import { Form, Button, Icon, Label, Grid, Rating } from "semantic-ui-react";
 import { connect } from "react-redux";
+import { debounce } from "lodash";
 
 import { unsetItemInfo } from "../redux/actions/menuItem";
+import { submitRating } from "../redux/actions/order";
 
 class RateForm extends React.Component {
   constructor(props) {
@@ -12,16 +14,42 @@ class RateForm extends React.Component {
       restaurantRating: 0
     };
   }
+
   handleDriverRatingChange = e => {
-    this.setState({
-      driverRating: parseInt(e.target.attributes["aria-posinset"].value)
+    let rating = parseInt(e.target.attributes["aria-posinset"].value);
+    this.setState(() => {
+      return {
+        driverRating: rating
+      };
     });
+    if (this.state.restaurantRating !== 0) {
+      // debugger;
+      debounce(this.handleRating, 0).bind(this)();
+    }
   };
 
   handleRestaurantRatingChange = e => {
-    this.setState({
-      restaurantRating: parseInt(e.target.attributes["aria-posinset"].value)
+    let rating = parseInt(e.target.attributes["aria-posinset"].value);
+    this.setState(() => {
+      return {
+        restaurantRating: rating
+      };
     });
+    if (this.state.driverRating !== 0) {
+      // debugger;
+      debounce(this.handleRating, 0).bind(this)();
+    }
+  };
+
+  handleRating = () => {
+    // debugger;
+    if (this.state.driverRating !== 0 && this.state.restaurantRating !== 0) {
+      this.props.submitRating(
+        this.props.order.id,
+        this.state.restaurantRating,
+        this.state.driverRating
+      );
+    }
   };
   render() {
     return (
@@ -62,7 +90,10 @@ const mapStateToProps = state => {
   return {};
 };
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    submitRating: (orderId, restaurantRating, driverRating) =>
+      dispatch(submitRating(orderId, restaurantRating, driverRating))
+  };
 };
 
 export default connect(

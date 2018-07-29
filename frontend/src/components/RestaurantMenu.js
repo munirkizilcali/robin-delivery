@@ -25,11 +25,7 @@ class RestaurantMenu extends React.Component {
 
 		return (
 			<div>
-				<Menu
-					vertical
-					fluid
-					style={{ height: "60vh", overflowY: "scroll" }}
-				>
+				<Menu vertical fluid>
 					{item_types.map(type => {
 						return (
 							<Menu.Item key={type}>

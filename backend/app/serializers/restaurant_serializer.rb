@@ -3,7 +3,7 @@ class RestaurantSerializer < ActiveModel::Serializer
   has_many :menu_items
 
 	class MenuItemSerializer < ActiveModel::Serializer
-	  attributes :id, :name, :price, :item_type, :vegetarian, :vegan
+	  attributes :id, :name, :price, :item_type, :vegetarian, :vegan, :restaurant_id
 	end
 
 

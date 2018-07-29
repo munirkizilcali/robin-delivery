@@ -6,7 +6,20 @@ import { submitOrder } from "../redux/actions/order";
 
 class CartSummary extends React.Component {
 	state = {
-		orderSubmitted: false
+		orderSubmitted: false,
+		orderConfirm: false,
+		orderTotal: 0
+	};
+
+	handleConfirmOrderClick = () => {
+		this.setState({ orderConfirm: true });
+		// {() =>
+		// 				this.handleSubmitOrderClick(
+		// 					this.props.user,
+		// 					this.props.cart,
+		// 					this.props.restaurant
+		// 				)
+		// 			}
 	};
 
 	handleSubmitOrderClick = (user, cart, restaurant) => {
@@ -24,13 +37,7 @@ class CartSummary extends React.Component {
 					as="button"
 					size="large"
 					color={this.props.cart.length !== 0 ? "orange" : "grey"}
-					onClick={() =>
-						this.handleSubmitOrderClick(
-							this.props.user,
-							this.props.cart,
-							this.props.restaurant
-						)
-					}
+					onClick={() => this.handleConfirmOrderClick()}
 					disabled={!(this.props.cart.length !== 0)}
 				>
 					<Icon name="dollar" />
@@ -54,10 +61,97 @@ class CartSummary extends React.Component {
 							color="green"
 							inverted
 							onClick={() =>
-								this.setState({ orderSubmitted: false })
+								this.setState({
+									orderSubmitted: false,
+									orderConfirm: false
+								})
 							}
 						>
 							<Icon name="checkmark" /> Ok
+						</Button>
+					</Modal.Actions>
+				</Modal>
+				<Modal
+					open={this.state.orderConfirm}
+					size="small"
+					onClose={() => this.setState({ orderSubmitted: false })}
+				>
+					<Header icon="archive" content="Order Details & Payment" />
+					<Modal.Content>
+						<p>
+							Your selected items from{" "}
+							{this.props.restaurant.name} is listed below. After
+							reviewing them, please select a payment method:
+						</p>
+						<ul>
+							{this.props.cart.map(item => {
+								return (
+									<li>
+										<strong>{item.name}</strong> (x{
+											item.count
+										}):{" "}
+										<italic>
+											${item.count * item.price}
+										</italic>
+									</li>
+								);
+							})}
+						</ul>
+						<Header as="h4">
+							Total: ${this.props.cart.reduce(
+								(acc, b) => acc + b.price * b.count,
+								0
+							)}
+						</Header>
+					</Modal.Content>
+					<Modal.Actions>
+						<Button
+							color="blue"
+							onClick={() =>
+								this.handleSubmitOrderClick(
+									this.props.user,
+									this.props.cart,
+									this.props.restaurant
+								)
+							}
+						>
+							<Icon name="paypal" /> Paypal
+						</Button>
+						<Button
+							color="green"
+							onClick={() =>
+								this.handleSubmitOrderClick(
+									this.props.user,
+									this.props.cart,
+									this.props.restaurant
+								)
+							}
+						>
+							<Icon name="money" /> Cash
+						</Button>
+						<Button
+							color="yellow"
+							onClick={() =>
+								this.handleSubmitOrderClick(
+									this.props.user,
+									this.props.cart,
+									this.props.restaurant
+								)
+							}
+						>
+							<Icon name="credit card" /> Credit Card
+						</Button>
+						<Button
+							color="red"
+							inverted
+							onClick={() =>
+								this.setState({
+									orderSubmitted: false,
+									orderConfirm: false
+								})
+							}
+						>
+							<Icon name="checkmark" /> Cancel
 						</Button>
 					</Modal.Actions>
 				</Modal>

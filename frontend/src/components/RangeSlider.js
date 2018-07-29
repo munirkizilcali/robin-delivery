@@ -1,6 +1,7 @@
 import React from "react";
 import { Menu, Icon, Input } from "semantic-ui-react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { setRange } from "../redux/actions/location";
 import { nearbyRestaurants } from "../redux/actions/searchResults";
@@ -20,8 +21,11 @@ class RangeSlider extends React.Component {
 	render() {
 		return (
 			<Menu.Item>
-				<Icon name="location arrow" size="large" />Nearby Restaurants
-				(Range: {this.props.range.toFixed(1)} miles)
+				<Icon name="location arrow" size="large" color="blue" />
+				<Link to="/restaurants">
+					Nearby Restaurants (Range: {this.props.range.toFixed(1)}{" "}
+					miles)
+				</Link>
 				<Input
 					min={0.5}
 					max={5}
