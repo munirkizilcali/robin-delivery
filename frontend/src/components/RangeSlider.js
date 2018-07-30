@@ -2,6 +2,7 @@ import React from "react";
 import { Menu, Icon, Input } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { Slider } from "react-semantic-ui-range";
 
 import { setRange } from "../redux/actions/location";
 import { nearbyRestaurants } from "../redux/actions/searchResults";
@@ -9,11 +10,11 @@ import { nearbyRestaurants } from "../redux/actions/searchResults";
 class RangeSlider extends React.Component {
 	state = {};
 
-	handleRangeChange = e => {
-		this.props.setRange(parseFloat(e.target.value));
+	handleRangeChange = value => {
+		this.props.setRange(parseFloat(value));
 		this.props.nearbyRestaurants(
 			this.props.location,
-			parseFloat(e.target.value),
+			parseFloat(value),
 			this.props.searchTerm
 		);
 	};
@@ -23,16 +24,21 @@ class RangeSlider extends React.Component {
 			<Menu.Item>
 				<Icon name="location arrow" size="large" color="blue" />
 				<Link to="/restaurants">
-					Nearby Restaurants (Range: {this.props.range.toFixed(1)}{" "}
-					miles)
+					Nearby Restaurants <br />(Range:{" "}
+					{this.props.range.toFixed(1)} miles)
 				</Link>
-				<Input
-					min={0.5}
-					max={5}
-					onChange={this.handleRangeChange}
-					type="range"
-					value={this.props.range}
-					step={0.5}
+
+				<Slider
+					color="blue"
+					inverted={false}
+					settings={{
+						start: this.props.range,
+						min: 0,
+						max: 5,
+						step: 0.5,
+						onChange: value => this.handleRangeChange(value)
+					}}
+					style={{ minWidth: "220px" }}
 				/>
 			</Menu.Item>
 		);

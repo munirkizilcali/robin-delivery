@@ -31,7 +31,7 @@ class ItemDetails extends React.Component {
         <Input
           icon="search"
           placeholder="Search for a restaurant"
-          onFocus={history.push("/restaurants")}
+          onFocus={() => history.push("/restaurants")}
           onChange={this.handleSearchInput}
         />
       </Menu.Item>

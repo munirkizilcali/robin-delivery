@@ -27,10 +27,8 @@ class PageContainer extends React.Component {
 		return (
 			<Grid container columns={1}>
 				<Grid.Row>
-					<Grid.Column>
-						<Sticky context={contextRef}>
-							<Route path="/" component={Navbar} />
-						</Sticky>
+					<Grid.Column width={13} mobile={16} centered>
+						<Route path="/" component={Navbar} />
 					</Grid.Column>
 				</Grid.Row>
 				<Grid.Row>
@@ -42,21 +40,28 @@ class PageContainer extends React.Component {
 								centered
 								ref={this.handleContextRef}
 							>
-								<Switch>
-									<Route
-										exact
-										path="/restaurants"
-										component={SearchResults}
-									/>
-									<Route
-										path="/restaurants/:id"
-										component={RestaurantDetails}
-									/>
-									<Route
-										path="/recentorders"
-										component={RecentOrders}
-									/>
-								</Switch>
+								{" "}
+								<div style={{ marginTop: "50px" }}>
+									<Switch>
+										<Route
+											exact
+											path="/restaurants"
+											component={SearchResults}
+										/>
+										<Route
+											path="/restaurants/:id"
+											component={RestaurantDetails}
+										/>
+										<Route
+											path="/recentorders"
+											component={RecentOrders}
+										/>
+										<Route
+											path="/login"
+											component={Login}
+										/>
+									</Switch>
+								</div>
 							</Grid.Column>
 						</Grid>
 					</Grid.Column>
