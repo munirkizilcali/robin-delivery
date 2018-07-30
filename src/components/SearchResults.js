@@ -1,7 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Rating, Menu, Header, Dropdown, Card } from "semantic-ui-react";
-import { sortBy } from "lodash";
+import {
+	Rating,
+	Menu,
+	Header,
+	Dropdown,
+	Card,
+	Checkbox,
+	Grid
+} from "semantic-ui-react";
+import { orderBy, filter } from "lodash";
 
 import { addResults, nearbyRestaurants } from "../redux/actions/searchResults";
 import {
@@ -18,7 +26,8 @@ class SearchResults extends React.Component {
 			searchResults: [],
 			activeRest: "",
 			sortBy: "",
-			order: "asc"
+			order: "asc",
+			open: false
 		};
 	}
 
@@ -80,93 +89,105 @@ class SearchResults extends React.Component {
 			order: d.value.split(" ")[1]
 		});
 	};
+
+	handleOpenFilter = () => {
+		this.setState(() => ({ open: !this.state.open }));
+	};
 	render() {
 		return (
 			<div>
-				<Dropdown
-					placeholder="Sort by..."
-					fluid
-					selection
-					options={[
-						{
-							text: "Popularity (Asc)",
-							value: " asc",
-							icon: "sort alphabet ascending"
-						},
-						{
-							text: "Popularity (Desc)",
-							value: " desc",
-							icon: "sort alphabet descending"
-						},
-						{
-							text: "Name (Asc)",
-							value: "name asc",
-							icon: "sort alphabet ascending"
-						},
-						{
-							text: "Name (Desc)",
-							value: "name desc",
-							icon: "sort alphabet descending"
-						},
-						{
-							text: "Rating (Asc)",
-							value: "rating asc",
-							icon: "sort numeric ascending"
-						},
+				<Grid verticalAlign="middle">
+					{" "}
+					<Grid.Row fluid verticalAlign="middle">
+						<Grid.Column width={11} mobile={11} fluid>
+							<Dropdown
+								placeholder="Sort by..."
+								selection
+								fluid
+								options={[
+									{
+										text: "Popularity",
+										value: " asc",
+										icon: "sort alphabet ascending"
+									},
+									{
+										text: "Name (Asc)",
+										value: "name asc",
+										icon: "sort alphabet ascending"
+									},
+									{
+										text: "Name (Desc)",
+										value: "name desc",
+										icon: "sort alphabet descending"
+									},
+									{
+										text: "Rating (Asc)",
+										value: "rating asc",
+										icon: "sort numeric ascending"
+									},
 
-						{
-							text: "Rating (Desc)",
-							value: "rating desc",
-							icon: "sort numeric descending"
-						},
-						{
-							text: "Distance (Asc)",
-							value: "distance asc",
-							icon: "sort numeric ascending"
-						},
-						{
-							text: "Distance (Desc)",
-							value: "distance desc",
-							icon: "sort numeric descending"
-						},
-						{
-							text: "Price (Asc)",
-							value: "price_level asc",
-							icon: "sort numeric ascending"
-						},
-						{
-							text: "Price (Desc)",
-							value: "price_level desc",
-							icon: "sort numeric descending"
-						}
-					]}
-					onChange={this.handleSortChange}
-				/>
+									{
+										text: "Rating (Desc)",
+										value: "rating desc",
+										icon: "sort numeric descending"
+									},
+									{
+										text: "Distance (Asc)",
+										value: "distance asc",
+										icon: "sort numeric ascending"
+									},
+									{
+										text: "Distance (Desc)",
+										value: "distance desc",
+										icon: "sort numeric descending"
+									},
+									{
+										text: "Price (Asc)",
+										value: "price_level asc",
+										icon: "sort numeric ascending"
+									},
+									{
+										text: "Price (Desc)",
+										value: "price_level desc",
+										icon: "sort numeric descending"
+									}
+								]}
+								onChange={this.handleSortChange}
+								style={{
+									marginBottom: "10px"
+								}}
+							/>
+						</Grid.Column>
+						<Grid.Column width={2} mobile={1}>
+							<Checkbox
+								label="Open"
+								onChange={this.handleOpenFilter}
+								value={this.state.open}
+								style={{
+									marginBottom: "10px"
+								}}
+							/>
+						</Grid.Column>
+					</Grid.Row>
+				</Grid>
 				<Card.Group stackable centered style={{ padding: "12px" }}>
 					{this.props.searchResults.length !== 0
-						? (this.state.order === "asc"
-								? sortBy(
-										this.props.searchResults,
-										this.state.sortBy !== "distance"
-											? this.state.sortBy
-											: [
-													restaurant =>
-														this.distanceRest(
-															restaurant
-														)
-											  ]
-								  )
-								: sortBy(
-										this.props.searchResults,
-										this.state.sortBy !== "distance"
-											? this.state.sortBy
-											: [
-													restaurant =>
-														this.distanceRest(
-															restaurant
-														)
-											  ]
-								  ).reverse()
+						? filter(
+								orderBy(
+									this.props.searchResults,
+									this.state.sortBy !== "distance"
+										? this.state.sortBy
+										: [
+												restaurant =>
+													this.distanceRest(
+														restaurant
+													)
+										  ],
+									this.state.order
+								),
+								this.state.open
+									? r => r.opening_hours.open_now
+									: r => r.place_id
 						  ).map(rest => (
 								<SimpleRestaurantCard
 									restaurant={rest}

@@ -29,7 +29,7 @@ class Login extends React.Component {
 			from: { pathname: "/" }
 		};
 
-		if (this.props.isLoginSuccess) {
+		if (this.props.isLoginSuccess && localStorage.token) {
 			return <Redirect to={from} />;
 		}
 		return (
