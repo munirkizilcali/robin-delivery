@@ -27,7 +27,7 @@ export const nearbyRestaurants = (
 		return myFetch(
 			`/google_places/${location.coords.latitude}/${
 				location.coords.longitude
-			}/${parseInt(radius * 1609)}/${
+			}/${parseInt(radius * 1609, 10)}/${
 				searchTerm !== "" ? encodeURI(searchTerm) : "nO0n"
 			}/${nextToken ? nextToken : "nO0n"}`
 		)

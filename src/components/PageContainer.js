@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Route, Link, Switch, Redirect, withRouter } from "react-router-dom";
-import { Grid, Sticky } from "semantic-ui-react";
+import { Route, Switch, withRouter } from "react-router-dom";
+import { Grid } from "semantic-ui-react";
 
 import Login from "./Login";
 import SearchResults from "./SearchResults";
@@ -20,27 +20,20 @@ class PageContainer extends React.Component {
 		this.props.fetchUserData().then(() => this.props.fetchRecentOrders());
 	}
 
-	handleContextRef = contextRef => this.setState({ contextRef });
-
 	render() {
-		const { contextRef } = this.state;
 		return (
 			<Grid container columns={1}>
 				<Grid.Row>
-					<Grid.Column width={13} mobile={16} centered>
-						<Route path="/" component={Navbar} />
+					<Grid.Column width={13} mobile={16}>
+						<center>
+							<Route path="/" component={Navbar} />
+						</center>
 					</Grid.Column>
 				</Grid.Row>
 				<Grid.Row>
 					<Grid.Column>
 						<Grid stackable centered>
-							<Grid.Column
-								width={13}
-								mobile={16}
-								centered
-								ref={this.handleContextRef}
-							>
-								{" "}
+							<Grid.Column width={13} mobile={16}>
 								<div style={{ marginTop: "50px" }}>
 									<Switch>
 										<Route

@@ -1,8 +1,7 @@
 import React from "react";
-import { Form, Button, Icon, Label, Grid, Rating } from "semantic-ui-react";
+import { Button, Label, Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
 
-import { unsetItemInfo } from "../redux/actions/menuItem";
 import { submitTip } from "../redux/actions/order";
 
 const TipForm = props => {

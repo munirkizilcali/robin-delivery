@@ -1,8 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Card, Icon, Image, Rating } from "semantic-ui-react";
+import { Card, Icon, Rating, Label } from "semantic-ui-react";
 
-import RestaurantMenu from "./RestaurantMenu";
 import { restaurantView } from "../redux/actions/restaurant";
 
 class SimpleRestaurantCard extends React.Component {
@@ -29,6 +28,32 @@ class SimpleRestaurantCard extends React.Component {
 							: "#f2c1c1"
 					}}
 				>
+					<Label
+						color={
+							this.props.restaurant.opening_hours
+								? this.props.restaurant.opening_hours.open_now
+									? "green"
+									: "red"
+								: "red"
+						}
+						ribbon="right"
+					>
+						<Icon
+							name={
+								this.props.restaurant.opening_hours
+									? this.props.restaurant.opening_hours
+											.open_now
+										? "spoon"
+										: "stop"
+									: "stop"
+							}
+						/>
+						{this.props.restaurant.opening_hours
+							? this.props.restaurant.opening_hours.open_now
+								? "Open"
+								: "Closed"
+							: "Closed"}
+					</Label>
 					<Card.Header>
 						<Icon name="food" />
 						{this.props.restaurant.name}{" "}

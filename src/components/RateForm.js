@@ -1,9 +1,7 @@
 import React from "react";
-import { Form, Button, Icon, Label, Grid, Rating } from "semantic-ui-react";
+import { Label, Grid, Rating } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { debounce } from "lodash";
-
-import { unsetItemInfo } from "../redux/actions/menuItem";
 import { submitRating } from "../redux/actions/order";
 
 class RateForm extends React.Component {
@@ -16,7 +14,7 @@ class RateForm extends React.Component {
   }
 
   handleDriverRatingChange = e => {
-    let rating = parseInt(e.target.attributes["aria-posinset"].value);
+    let rating = parseInt(e.target.attributes["aria-posinset"].value, 10);
     this.setState(() => {
       return {
         driverRating: rating
@@ -29,7 +27,7 @@ class RateForm extends React.Component {
   };
 
   handleRestaurantRatingChange = e => {
-    let rating = parseInt(e.target.attributes["aria-posinset"].value);
+    let rating = parseInt(e.target.attributes["aria-posinset"].value, 10);
     this.setState(() => {
       return {
         restaurantRating: rating

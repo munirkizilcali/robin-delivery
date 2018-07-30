@@ -35,7 +35,7 @@ class RestaurantDetails extends React.Component {
 							style={{
 								display: "block",
 								width: "100%",
-								margin: "-25.875% 0"
+								margin: "-15.875% 0"
 							}}
 						/>
 					) : (

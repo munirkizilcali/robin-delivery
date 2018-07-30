@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Icon, Input } from "semantic-ui-react";
+import { Menu, Icon } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Slider } from "react-semantic-ui-range";
@@ -27,7 +27,6 @@ class RangeSlider extends React.Component {
 					Nearby Restaurants <br />(Range:{" "}
 					{this.props.range.toFixed(1)} miles)
 				</Link>
-
 				<Slider
 					color="blue"
 					inverted={false}

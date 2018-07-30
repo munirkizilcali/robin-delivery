@@ -2,7 +2,6 @@ import React from "react";
 import { Input, Menu } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { debounce } from "lodash";
-import { Redirect } from "react-router-dom";
 import { history } from "../redux/history";
 import {
   setSearchTerm,
