@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Card, Icon, Rating, Label } from "semantic-ui-react";
+import { Card, Icon, Rating, Label, Image } from "semantic-ui-react";
+import moment from "moment";
 
 import { restaurantView } from "../redux/actions/restaurant";
 
@@ -18,6 +19,7 @@ class SimpleRestaurantCard extends React.Component {
 					this.handleRestaurantClick(this.props.restaurant)
 				}
 				raised
+				style={{ marginRight: "14px" }}
 			>
 				<Card.Content
 					style={{
@@ -60,6 +62,18 @@ class SimpleRestaurantCard extends React.Component {
 						<Rating maxRating={1} disabled />{" "}
 						{this.props.restaurant.rating}
 					</Card.Header>
+					<Card.Meta>
+						<Icon name="time" />
+						Est. Delivery Time:{" "}
+						{moment
+							.utc(
+								this.props.restaurant.distance.duration.value *
+									2 *
+									1000
+							)
+							.format("m")}{" "}
+						minutes
+					</Card.Meta>
 				</Card.Content>
 				<Card.Content>
 					<Card.Meta>
@@ -69,7 +83,7 @@ class SimpleRestaurantCard extends React.Component {
 					</Card.Meta>
 					<Card.Meta>
 						<Icon name="road" />
-						{this.props.distance} miles
+						{this.props.restaurant.distance.distance.text}
 					</Card.Meta>
 				</Card.Content>
 			</Card>
