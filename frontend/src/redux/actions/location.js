@@ -1,3 +1,6 @@
+import { myFetch } from "../../lib/myFetch";
+import { addResults } from "./searchResults";
+
 const getPosition = function(options) {
 	return new Promise(function(resolve, reject) {
 		navigator.geolocation.getCurrentPosition(resolve, reject, options);
@@ -21,6 +24,41 @@ export const setRange = range => {
 	return {
 		type: "SET_RANGE",
 		range: range
+	};
+};
+
+export const fetchDistances = (origin, destinations, method = "driving") => {
+	let destinationString = "";
+	destinations.forEach(
+		(destination, index) =>
+			index !== destinations.length - 1
+				? (destinationString += `place_id:${destination}|`)
+				: (destinationString += `place_id:${destination}`)
+	);
+	return dispatch => {
+		return myFetch(
+			`/google_places/find_distance_and_duration/${encodeURI(
+				origin.lat
+			)}/${encodeURI(origin.lng)}/${destinationString}/${method}`
+		)
+			.then(resp => resp.json())
+			.catch(err => Promise.reject(err));
+	};
+};
+
+export const setDistancesForSearchResults = (origin, method, searchResults) => {
+	let destinations = [];
+	destinations = searchResults.map(restaurant => restaurant.place_id);
+	return dispatch => {
+		return dispatch(fetchDistances(origin, destinations, method)).then(
+			json =>
+				searchResults.map((restaurant, index) => {
+					restaurant["distance"] = json.rows[0].elements[index];
+					restaurant["distance"]["address"] =
+						json.destination_addresses[index];
+					return restaurant;
+				})
+		);
 	};
 };
 

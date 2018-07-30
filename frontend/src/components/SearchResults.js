@@ -1,6 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Dropdown, Card, Checkbox, Grid } from "semantic-ui-react";
+import {
+	Dropdown,
+	Card,
+	Checkbox,
+	Grid,
+	Loader,
+	Dimmer
+} from "semantic-ui-react";
 import { orderBy, filter } from "lodash";
 
 import { addResults, nearbyRestaurants } from "../redux/actions/searchResults";
@@ -8,7 +15,11 @@ import {
 	fetchRestaurantData,
 	restaurantView
 } from "../redux/actions/restaurant";
-import { setPosition } from "../redux/actions/location";
+import {
+	setPosition,
+	fetchDistances,
+	setDistancesForSearchResults
+} from "../redux/actions/location";
 import SimpleRestaurantCard from "./SimpleRestaurantCard";
 
 class SearchResults extends React.Component {
@@ -19,7 +30,9 @@ class SearchResults extends React.Component {
 			activeRest: "",
 			sortBy: "",
 			order: "asc",
-			open: false
+			open: false,
+			loading: false,
+			loadingMore: false
 		};
 	}
 
@@ -52,6 +65,7 @@ class SearchResults extends React.Component {
 
 	componentDidMount = () => {
 		if (this.props.searchResults.length === 0) {
+			this.setState({ loading: true });
 			this.props
 				.setPosition()
 				.then(() =>
@@ -59,20 +73,23 @@ class SearchResults extends React.Component {
 						this.props.location,
 						this.props.location.range
 					)
-				);
+				)
+				.then(() => this.setState({ loading: false }));
 		}
 	};
 	priceLevelOutput = priceLevel =>
 		priceLevel ? "$$$$$$$$".slice(0, priceLevel) : "No Price Info";
 
 	handleLoadMoreClick = () => {
-		// debugger;
-		this.props.nearbyRestaurants(
-			this.props.location,
-			this.props.location.range,
-			null,
-			this.props.nextToken
-		);
+		this.setState({ loadingMore: true });
+		this.props
+			.nearbyRestaurants(
+				this.props.location,
+				this.props.location.range,
+				null,
+				this.props.nextToken
+			)
+			.then(() => this.setState({ loadingMore: false }));
 	};
 
 	handleSortChange = (e, d) => {
@@ -160,35 +177,43 @@ class SearchResults extends React.Component {
 							<Card.Group
 								stackable
 								centered
-								style={{ padding: "12px" }}
+								style={{ padding: "0px" }}
 							>
-								{this.props.searchResults.length !== 0
-									? filter(
-											orderBy(
-												this.props.searchResults,
-												this.state.sortBy !== "distance"
-													? this.state.sortBy
-													: [
-															restaurant =>
-																this.distanceRest(
-																	restaurant
-																)
-													  ],
-												this.state.order
-											),
-											this.state.open
-												? r => r.opening_hours.open_now
-												: r => r.place_id
-									  ).map(rest => (
-											<SimpleRestaurantCard
-												restaurant={rest}
-												distance={this.distanceRest(
-													rest
-												)}
-												key={rest.place_id}
-											/>
-									  ))
-									: "No Results"}
+								{this.props.searchResults.length !== 0 ? (
+									filter(
+										orderBy(
+											this.props.searchResults,
+											this.state.sortBy !== "distance"
+												? this.state.sortBy
+												: [
+														restaurant =>
+															this.distanceRest(
+																restaurant
+															)
+												  ],
+											this.state.order
+										),
+										this.state.open
+											? r => r.opening_hours.open_now
+											: r => r.place_id
+									).map(rest => (
+										<SimpleRestaurantCard
+											restaurant={rest}
+											distance={this.distanceRest(rest)}
+											key={rest.place_id}
+										/>
+									))
+								) : (
+									<div>
+										No result.
+										<Dimmer
+											active={this.state.loading}
+											page
+										>
+											<Loader>Loading... </Loader>
+										</Dimmer>
+									</div>
+								)}
 								{this.props.nextToken !== "" ? (
 									<Card
 										onClick={() =>
@@ -198,7 +223,13 @@ class SearchResults extends React.Component {
 									>
 										<Card.Content>
 											<Card.Header>
-												Load More...
+												{this.state.loadingMore ? (
+													<Dimmer active>
+														<Loader>Loading</Loader>
+													</Dimmer>
+												) : (
+													"Load More..."
+												)}
 											</Card.Header>
 										</Card.Content>
 									</Card>
@@ -232,7 +263,13 @@ const mapDispatchToProps = dispatch => {
 			dispatch(
 				nearbyRestaurants(location, radius, searchTerm, nextToken)
 			),
-		setPosition: () => dispatch(setPosition())
+		setPosition: () => dispatch(setPosition()),
+		fetchDistances: (origin, destinations, method) =>
+			dispatch(fetchDistances(origin, destinations, method)),
+		setDistancesForSearchResults: (origin, method, searchResults) =>
+			dispatch(
+				setDistancesForSearchResults(origin, method, searchResults)
+			)
 	};
 };
 export default connect(

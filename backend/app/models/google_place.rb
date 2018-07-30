@@ -27,4 +27,8 @@ class GooglePlace < ApplicationRecord
 
 	end
 
+	def self.fetch_distances(lat, lng, destination_string, method)
+		res = RestClient.get "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=#{lat}%2C#{lng}&destinations=#{destination_string}&mode=#{method}&key=#{GOOGLE_API_KEY}"
+	end
+
 end

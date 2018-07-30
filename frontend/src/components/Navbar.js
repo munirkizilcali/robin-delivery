@@ -18,6 +18,8 @@ class Navbar extends React.Component {
 
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
+	handleHideClick = () => this.setState({ hide: !this.state.hide });
+
 	render() {
 		const { activeItem } = this.state;
 
@@ -38,7 +40,9 @@ class Navbar extends React.Component {
 					</Menu>
 					{!this.state.hide ? (
 						<Menu stackable fluid>
-							<RangeSlider />
+							<RangeSlider
+								handleHideClick={this.handleHideClick}
+							/>
 							<Menu.Item
 								onClick={() =>
 									this.setState({ hide: !this.state.hide })
@@ -50,7 +54,11 @@ class Navbar extends React.Component {
 								</Link>
 							</Menu.Item>
 							<Menu.Menu position="right">
-								{<CartSummary />}
+								{
+									<CartSummary
+										handleHideClick={this.handleHideClick}
+									/>
+								}
 								<SearchBar />
 								<Menu.Item
 									name="logout"
