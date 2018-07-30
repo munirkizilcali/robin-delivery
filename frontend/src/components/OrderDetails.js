@@ -1,8 +1,7 @@
 import React from "react";
-import { Button, Header, Icon, Rating, Card, List } from "semantic-ui-react";
+import { Icon, Rating, Card, List } from "semantic-ui-react";
 import moment from "moment";
 
-import { unsetItemInfo } from "../redux/actions/menuItem";
 import TipForm from "./TipForm";
 import RateForm from "./RateForm";
 
@@ -177,10 +176,8 @@ class OrderDetails extends React.Component {
                 </strong>
               </List.Header>
               {this.props.order.meals.map(meal => (
-                <List.Item>
-                  <span style={{ "padding-right": "1em" }}>
-                    #{meal.number}{" "}
-                  </span>{" "}
+                <List.Item key={meal.menu_item.id}>
+                  <span style={{ paddingRight: "1em" }}>#{meal.number} </span>{" "}
                   {meal.menu_item.name.slice(0, 38)}
                   {meal.menu_item.name.slice(0, 38).length === 38 ? "..." : ""}
                   <List.Content floated="right">

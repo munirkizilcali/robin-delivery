@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import moment from "moment";
-import { Icon, Step, List, Rating, Card } from "semantic-ui-react";
+import { Card } from "semantic-ui-react";
 import { orderBy } from "lodash";
 import OrderDetails from "./OrderDetails";
 

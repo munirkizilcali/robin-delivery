@@ -86,7 +86,7 @@ class CartSummary extends React.Component {
 						<ul>
 							{this.props.cart.map(item => {
 								return (
-									<li>
+									<li key={item.name}>
 										<strong>{item.name}</strong> (x{
 											item.count
 										}):{" "}

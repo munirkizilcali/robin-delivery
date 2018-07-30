@@ -1,14 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-	Rating,
-	Menu,
-	Header,
-	Dropdown,
-	Card,
-	Checkbox,
-	Grid
-} from "semantic-ui-react";
+import { Dropdown, Card, Checkbox, Grid } from "semantic-ui-react";
 import { orderBy, filter } from "lodash";
 
 import { addResults, nearbyRestaurants } from "../redux/actions/searchResults";
@@ -98,8 +90,8 @@ class SearchResults extends React.Component {
 			<div>
 				<Grid verticalAlign="middle">
 					{" "}
-					<Grid.Row fluid verticalAlign="middle">
-						<Grid.Column width={11} mobile={11} fluid>
+					<Grid.Row verticalAlign="middle">
+						<Grid.Column width={14} mobile={11}>
 							<Dropdown
 								placeholder="Sort by..."
 								selection
@@ -153,59 +145,70 @@ class SearchResults extends React.Component {
 									}
 								]}
 								onChange={this.handleSortChange}
-								style={{
-									marginBottom: "10px"
-								}}
 							/>
 						</Grid.Column>
 						<Grid.Column width={2} mobile={1}>
 							<Checkbox
 								label="Open"
 								onChange={this.handleOpenFilter}
-								value={this.state.open}
-								style={{
-									marginBottom: "10px"
-								}}
+								checked={this.state.open}
 							/>
 						</Grid.Column>
 					</Grid.Row>
+					<Grid.Row fluid>
+						<Grid.Column width={16} mobile={16} fluid>
+							<Card.Group
+								stackable
+								centered
+								style={{ padding: "12px" }}
+							>
+								{this.props.searchResults.length !== 0
+									? filter(
+											orderBy(
+												this.props.searchResults,
+												this.state.sortBy !== "distance"
+													? this.state.sortBy
+													: [
+															restaurant =>
+																this.distanceRest(
+																	restaurant
+																)
+													  ],
+												this.state.order
+											),
+											this.state.open
+												? r => r.opening_hours.open_now
+												: r => r.place_id
+									  ).map(rest => (
+											<SimpleRestaurantCard
+												restaurant={rest}
+												distance={this.distanceRest(
+													rest
+												)}
+												key={rest.place_id}
+											/>
+									  ))
+									: "No Results"}
+								{this.props.nextToken !== "" ? (
+									<Card
+										onClick={() =>
+											this.handleLoadMoreClick()
+										}
+										raised
+									>
+										<Card.Content>
+											<Card.Header>
+												Load More...
+											</Card.Header>
+										</Card.Content>
+									</Card>
+								) : (
+									""
+								)}
+							</Card.Group>
+						</Grid.Column>
+					</Grid.Row>
 				</Grid>
-				<Card.Group stackable centered style={{ padding: "12px" }}>
-					{this.props.searchResults.length !== 0
-						? filter(
-								orderBy(
-									this.props.searchResults,
-									this.state.sortBy !== "distance"
-										? this.state.sortBy
-										: [
-												restaurant =>
-													this.distanceRest(
-														restaurant
-													)
-										  ],
-									this.state.order
-								),
-								this.state.open
-									? r => r.opening_hours.open_now
-									: r => r.place_id
-						  ).map(rest => (
-								<SimpleRestaurantCard
-									restaurant={rest}
-									distance={this.distanceRest(rest)}
-									key={rest.place_id}
-								/>
-						  ))
-						: "No Results"}
-					{this.props.nextToken !== "" ? (
-						<Card onClick={() => this.handleLoadMoreClick()} raised>
-							<Card.Content>
-								<Card.Header>Load More...</Card.Header>
-							</Card.Content>
-						</Card>
-					) : (
-						""
-					)}
-				</Card.Group>
 			</div>
 		);
 	}

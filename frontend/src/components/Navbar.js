@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Image, Icon, Dropdown, Grid } from "semantic-ui-react";
+import { Menu, Image, Icon, Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
 import logoSquare from "../assets/logo_square.png";
 import logoTitle from "../assets/logo_title.png";
@@ -10,7 +10,6 @@ import CartSummary from "./CartSummary";
 import { nearbyRestaurants } from "../redux/actions/searchResults";
 import SearchBar from "./SearchBar";
 import RangeSlider from "./RangeSlider";
-import RecentOrders from "./RecentOrders";
 
 class Navbar extends React.Component {
 	state = {
@@ -68,7 +67,7 @@ class Navbar extends React.Component {
 					)}
 				</Grid.Row>
 				<Grid.Row only="computer">
-					<Menu>
+					<Menu compact>
 						<Menu.Item
 							name="logo"
 							active={activeItem === "logo"}
