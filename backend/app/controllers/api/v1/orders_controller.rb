@@ -3,8 +3,11 @@ class Api::V1::OrdersController < ApplicationController
 
   # GET /orders
   def index
-    @orders = current_user.orders
-
+    if current_user.user_type == 'customer'
+      @orders = current_user.orders
+    else
+      @orders = current_user.deliveries
+    end
     render json: @orders
   end
 
@@ -18,7 +21,7 @@ class Api::V1::OrdersController < ApplicationController
     @order = Order.new(order_params)
 
     if @order.save
-      @order.assign_courier(User.find_by(user_type: 'courier'))
+      @order.ask_courier(User.find_by(user_type: 'courier'))
       render json: @order, status: :created
     else
       render json: @order.errors, status: :unprocessable_entity
@@ -27,10 +30,20 @@ class Api::V1::OrdersController < ApplicationController
 
   # PATCH/PUT /orders/1
   def update
-    if @order.update(order_params)
-      render json: @order
-    else
-      render json: @order.errors, status: :unprocessable_entity
+    if order_params[:status] == 'reject'
+      @order.ask_courier(User.where("user_type = ? and id != ?", 'courier', current_user.id).first)
+    elsif order_params[:status] == 'courierSet'
+      @order.assign_courier
+    elsif order_params[:status] == 'pickedUp'
+      @order.pick_up
+    elsif order_params[:status] == 'completed'
+      @order.complete
+    else 
+      if @order.update(order_params)
+        render json: @order
+      else
+        render json: @order.errors, status: :unprocessable_entity
+      end
     end
   end
 

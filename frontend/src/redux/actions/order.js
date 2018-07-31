@@ -85,6 +85,30 @@ export const submitTip = (orderId, tipAmount) => {
 	};
 };
 
+export const updateOrderStatus = (orderId, status) => {
+	let order = {
+		status: status
+	};
+	return dispatch => {
+		return myFetch(`/orders/${orderId}`, {
+			method: "PATCH",
+			body: JSON.stringify(order)
+		})
+			.then(res => {
+				// debugger;
+				return res.json();
+			})
+			.then(json => {
+				return Promise.resolve(true);
+			})
+			.then(() => dispatch(fetchRecentOrders()))
+			.catch(err => {
+				// debugger;
+				return Promise.reject(false);
+			});
+	};
+};
+
 export const submitRating = (orderId, restaurantRating, driverRating) => {
 	let review = {
 		order_id: orderId,

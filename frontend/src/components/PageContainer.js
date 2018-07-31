@@ -7,6 +7,7 @@ import Login from "./Login";
 import SearchResults from "./SearchResults";
 import RestaurantDetails from "./RestaurantDetails";
 import RecentOrders from "./RecentOrders";
+import DeliveryContainer from "./DeliveryContainer";
 import Navbar from "./Navbar";
 import { fetchUserData } from "../redux/actions/user";
 import { fetchRecentOrders } from "../redux/actions/recentOrders";
@@ -68,6 +69,10 @@ class PageContainer extends React.Component {
 										<Route
 											path="/login"
 											component={Login}
+										/>
+										<Route
+											path="/recentdeliveries"
+											component={DeliveryContainer}
 										/>
 										<Route
 											path="/"

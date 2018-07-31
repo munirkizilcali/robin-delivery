@@ -32,7 +32,7 @@ class Api::V1::GooglePlacesController < ApplicationController
 
 	  	if !restaurant.name
 	  		restaurant.name = place_details['result']['name']
-	  		restaurant.location = "#{place_details['result']['geometry']['lat']},#{place_details['result']['geometry']['lng']}"
+	  		restaurant.location = "#{place_details['result']['geometry']['location']['lat']},#{place_details['result']['geometry']['location']['lng']}"
 	  		restaurant.address = place_details['result']['formatted_address']
 	  		restaurant.google_rating = place_details['result']['rating']
 	  		restaurant.price_level = place_details['result']['price_level']

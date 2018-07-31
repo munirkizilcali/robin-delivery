@@ -20,14 +20,14 @@ const TipForm = props => {
             labelPosition="right"
             style={{ "margin-right": "7px" }}
             onClick={() =>
-              handleClick(props.order.id, (props.order.price * 0.12).toFixed(2))
+              handleClick(props.order.id, (props.order.price * 0.18).toFixed(2))
             }
           >
             <Button icon color="orange">
-              <small>%12</small>
+              <small>%18</small>
             </Button>
             <Label basic as="a" pointing="left" color="orange">
-              ${(props.order.price * 0.12).toFixed(2)}
+              ${(props.order.price * 0.18).toFixed(2)}
             </Label>
           </Button>
           <Button
@@ -35,28 +35,28 @@ const TipForm = props => {
             labelPosition="right"
             style={{ "margin-right": "7px" }}
             onClick={() =>
-              handleClick(props.order.id, (props.order.price * 0.15).toFixed(2))
+              handleClick(props.order.id, (props.order.price * 0.2).toFixed(2))
             }
           >
             <Button icon color="yellow">
-              <small>%15</small>
+              <small>%20</small>
             </Button>
             <Label as="a" basic pointing="left" color="yellow">
-              ${(props.order.price * 0.15).toFixed(2)}
+              ${(props.order.price * 0.2).toFixed(2)}
             </Label>
           </Button>{" "}
           <Button
             as="div"
             labelPosition="right"
             onClick={() =>
-              handleClick(props.order.id, (props.order.price * 0.18).toFixed(2))
+              handleClick(props.order.id, (props.order.price * 0.25).toFixed(2))
             }
           >
             <Button icon color="olive">
-              <small>%18</small>
+              <small>%25</small>
             </Button>
             <Label as="a" basic pointing="left" color="olive">
-              ${(props.order.price * 0.18).toFixed(2)}
+              ${(props.order.price * 0.25).toFixed(2)}
             </Label>
           </Button>
         </Button.Group>

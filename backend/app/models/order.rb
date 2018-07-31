@@ -14,8 +14,14 @@ class Order < ApplicationRecord
   	sum
   end
 
-  def assign_courier(courier)
-    self.update(status: 'courierSet', courier: courier, driver_assigned_time: Time.now)
+  def ask_courier(courier)
+    self.update(status: 'new', courier: courier)
+    self.save
+    self
+  end
+
+  def assign_courier
+    self.update(status: 'courierSet', driver_assigned_time: Time.now)
     self.save
     self
   end
