@@ -20,6 +20,13 @@ const setLocation = position => {
 	};
 };
 
+const setAddress = address => {
+	return {
+		type: "SET_ADDRESS",
+		address: address
+	};
+};
+
 export const setRange = range => {
 	return {
 		type: "SET_RANGE",
@@ -51,13 +58,15 @@ export const setDistancesForSearchResults = (origin, method, searchResults) => {
 	destinations = searchResults.map(restaurant => restaurant.place_id);
 	return dispatch => {
 		return dispatch(fetchDistances(origin, destinations, method)).then(
-			json =>
-				searchResults.map((restaurant, index) => {
+			json => {
+				dispatch(setAddress(json.origin_addresses[0]));
+				return searchResults.map((restaurant, index) => {
 					restaurant["distance"] = json.rows[0].elements[index];
 					restaurant["distance"]["address"] =
 						json.destination_addresses[index];
 					return restaurant;
-				})
+				});
+			}
 		);
 	};
 };

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Menu, Label, Icon, Button, Header, Modal } from "semantic-ui-react";
 
 import { submitOrder } from "../redux/actions/order";
+import { fetchRecentOrders } from "../redux/actions/recentOrders";
 
 class CartSummary extends React.Component {
 	state = {
@@ -22,9 +23,10 @@ class CartSummary extends React.Component {
 		// 			}
 	};
 
-	handleSubmitOrderClick = (user, cart, restaurant) => {
+	handleSubmitOrderClick = (user, cart, restaurant, location) => {
 		this.props
-			.submitOrder(user, cart, restaurant)
+			.submitOrder(user, cart, restaurant, location)
+			.then(() => this.props.fetchRecentOrders())
 			.then(() => this.setState({ orderSubmitted: true }));
 	};
 
@@ -111,7 +113,8 @@ class CartSummary extends React.Component {
 								this.handleSubmitOrderClick(
 									this.props.user,
 									this.props.cart,
-									this.props.restaurant
+									this.props.restaurant,
+									this.props.location
 								)
 							}
 						>
@@ -123,7 +126,8 @@ class CartSummary extends React.Component {
 								this.handleSubmitOrderClick(
 									this.props.user,
 									this.props.cart,
-									this.props.restaurant
+									this.props.restaurant,
+									this.props.location
 								)
 							}
 						>
@@ -135,7 +139,8 @@ class CartSummary extends React.Component {
 								this.handleSubmitOrderClick(
 									this.props.user,
 									this.props.cart,
-									this.props.restaurant
+									this.props.restaurant,
+									this.props.location
 								)
 							}
 						>
@@ -164,14 +169,16 @@ const mapStateToProps = state => {
 	return {
 		cart: state.cart,
 		user: state.user,
-		restaurant: state.selectedRestaurant
+		restaurant: state.selectedRestaurant,
+		location: state.location
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		submitOrder: (user, cart, restaurant) =>
-			dispatch(submitOrder(user, cart, restaurant))
+		submitOrder: (user, cart, restaurant, location) =>
+			dispatch(submitOrder(user, cart, restaurant, location)),
+		fetchRecentOrders: () => dispatch(fetchRecentOrders())
 	};
 };
 

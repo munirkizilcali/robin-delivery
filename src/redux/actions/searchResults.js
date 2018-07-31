@@ -39,16 +39,20 @@ export const nearbyRestaurants = (
 				} else {
 					dispatch(setNextToken(""));
 				}
-				return dispatch(
-					setDistancesForSearchResults(
-						{
-							lat: location.coords.latitude,
-							lng: location.coords.longitude
-						},
-						"driving",
-						json.results
-					)
-				);
+				if (json.results.length !== 0) {
+					return dispatch(
+						setDistancesForSearchResults(
+							{
+								lat: location.coords.latitude,
+								lng: location.coords.longitude
+							},
+							"driving",
+							json.results
+						)
+					);
+				} else {
+					return json.results;
+				}
 			})
 			.then(json => {
 				if (nextToken !== "") {

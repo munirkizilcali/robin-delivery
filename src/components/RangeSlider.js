@@ -23,10 +23,7 @@ class RangeSlider extends React.Component {
 		return (
 			<Menu.Item>
 				<Icon name="location arrow" size="large" color="blue" />
-				<Link
-					to="/restaurants"
-					onClick={() => this.props.handleHideClick()}
-				>
+				<Link to="/restaurants" onClick={this.props.handleHideClick}>
 					Nearby Restaurants <br />(Range:{" "}
 					{this.props.range.toFixed(1)} miles)
 				</Link>

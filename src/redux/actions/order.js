@@ -3,12 +3,19 @@ import moment from "moment";
 import { resetCart } from "./cart";
 import { fetchRecentOrders } from "./recentOrders";
 
-export const submitOrder = (user, cart, restaurant) => {
+export const submitOrder = (
+	user,
+	cart,
+	restaurant,
+	location = { address: "", coords: { latitude: "", longitude: "" } }
+) => {
 	let order = {
 		restaurant_id: restaurant.id,
 		user_id: user.id,
-		order_location: user.location,
-		order_address: user.address,
+		order_location: `${location.coords.latitude},${
+			location.coords.longitude
+		}`,
+		order_address: location.address,
 		order_time: moment().format(),
 		status: "new"
 	};
