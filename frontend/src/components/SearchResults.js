@@ -151,6 +151,16 @@ class SearchResults extends React.Component {
 										icon: "sort numeric descending"
 									},
 									{
+										text: "Delivery Time (Asc)",
+										value: "time asc",
+										icon: "sort numeric ascending"
+									},
+									{
+										text: "Delivery Time (Desc)",
+										value: "time desc",
+										icon: "sort numeric descending"
+									},
+									{
 										text: "Price (Asc)",
 										value: "price_level asc",
 										icon: "sort numeric ascending"
@@ -183,13 +193,20 @@ class SearchResults extends React.Component {
 									filter(
 										orderBy(
 											this.props.searchResults,
-											this.state.sortBy !== "distance"
-												? this.state.sortBy
+											this.state.sortBy !== "time"
+												? this.state.sortBy !==
+												  "distance"
+													? this.state.sortBy
+													: [
+															restaurant =>
+																this.distanceRest(
+																	restaurant
+																)
+													  ]
 												: [
 														restaurant =>
-															this.distanceRest(
-																restaurant
-															)
+															restaurant.distance
+																.duration.value
 												  ],
 											this.state.order
 										),

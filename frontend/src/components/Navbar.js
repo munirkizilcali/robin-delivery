@@ -18,7 +18,10 @@ class Navbar extends React.Component {
 
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
-	handleHideClick = () => this.setState({ hide: !this.state.hide });
+	handleHideClick = e => {
+		e.preventDefault();
+		this.setState({ hide: !this.state.hide });
+	};
 
 	render() {
 		const { activeItem } = this.state;
