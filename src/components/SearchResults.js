@@ -6,7 +6,8 @@ import {
 	Checkbox,
 	Grid,
 	Loader,
-	Dimmer
+	Dimmer,
+	Header
 } from "semantic-ui-react";
 import { orderBy, filter } from "lodash";
 
@@ -103,162 +104,177 @@ class SearchResults extends React.Component {
 		this.setState(() => ({ open: !this.state.open }));
 	};
 	render() {
-		return (
-			<div>
-				<Grid verticalAlign="middle">
-					{" "}
-					<Grid.Row verticalAlign="middle">
-						<Grid.Column width={14} mobile={11}>
-							<Dropdown
-								placeholder="Sort by..."
-								selection
-								fluid
-								options={[
-									{
-										text: "Popularity",
-										value: " asc",
-										icon: "sort alphabet ascending"
-									},
-									{
-										text: "Name (Asc)",
-										value: "name asc",
-										icon: "sort alphabet ascending"
-									},
-									{
-										text: "Name (Desc)",
-										value: "name desc",
-										icon: "sort alphabet descending"
-									},
-									{
-										text: "Rating (Asc)",
-										value: "rating asc",
-										icon: "sort numeric ascending"
-									},
+		if (this.props.userType !== "customer") {
+			return (
+				<Header as="h2">
+					You are not authorized for this page. Please log out and log
+					in back as a customer.
+				</Header>
+			);
+		} else {
+			return (
+				<div>
+					<Grid verticalAlign="middle">
+						{" "}
+						<Grid.Row verticalAlign="middle">
+							<Grid.Column width={14} mobile={11}>
+								<Dropdown
+									placeholder="Sort by..."
+									selection
+									fluid
+									options={[
+										{
+											text: "Popularity",
+											value: " asc",
+											icon: "sort alphabet ascending"
+										},
+										{
+											text: "Name (Asc)",
+											value: "name asc",
+											icon: "sort alphabet ascending"
+										},
+										{
+											text: "Name (Desc)",
+											value: "name desc",
+											icon: "sort alphabet descending"
+										},
+										{
+											text: "Rating (Asc)",
+											value: "rating asc",
+											icon: "sort numeric ascending"
+										},
 
-									{
-										text: "Rating (Desc)",
-										value: "rating desc",
-										icon: "sort numeric descending"
-									},
-									{
-										text: "Distance (Asc)",
-										value: "distance asc",
-										icon: "sort numeric ascending"
-									},
-									{
-										text: "Distance (Desc)",
-										value: "distance desc",
-										icon: "sort numeric descending"
-									},
-									{
-										text: "Delivery Time (Asc)",
-										value: "time asc",
-										icon: "sort numeric ascending"
-									},
-									{
-										text: "Delivery Time (Desc)",
-										value: "time desc",
-										icon: "sort numeric descending"
-									},
-									{
-										text: "Price (Asc)",
-										value: "price_level asc",
-										icon: "sort numeric ascending"
-									},
-									{
-										text: "Price (Desc)",
-										value: "price_level desc",
-										icon: "sort numeric descending"
-									}
-								]}
-								onChange={this.handleSortChange}
-							/>
-						</Grid.Column>
-						<Grid.Column width={2} mobile={1}>
-							<Checkbox
-								label="Open"
-								onChange={this.handleOpenFilter}
-								checked={this.state.open}
-							/>
-						</Grid.Column>
-					</Grid.Row>
-					<Grid.Row fluid>
-						<Grid.Column width={16} mobile={16} fluid>
-							<Card.Group
-								stackable
-								centered
-								style={{ padding: "0px" }}
-							>
-								{this.props.searchResults.length !== 0 ? (
-									filter(
-										orderBy(
-											this.props.searchResults,
-											this.state.sortBy !== "time"
-												? this.state.sortBy !==
-												  "distance"
-													? this.state.sortBy
+										{
+											text: "Rating (Desc)",
+											value: "rating desc",
+											icon: "sort numeric descending"
+										},
+										{
+											text: "Distance (Asc)",
+											value: "distance asc",
+											icon: "sort numeric ascending"
+										},
+										{
+											text: "Distance (Desc)",
+											value: "distance desc",
+											icon: "sort numeric descending"
+										},
+										{
+											text: "Delivery Time (Asc)",
+											value: "time asc",
+											icon: "sort numeric ascending"
+										},
+										{
+											text: "Delivery Time (Desc)",
+											value: "time desc",
+											icon: "sort numeric descending"
+										},
+										{
+											text: "Price (Asc)",
+											value: "price_level asc",
+											icon: "sort numeric ascending"
+										},
+										{
+											text: "Price (Desc)",
+											value: "price_level desc",
+											icon: "sort numeric descending"
+										}
+									]}
+									onChange={this.handleSortChange}
+								/>
+							</Grid.Column>
+							<Grid.Column width={2} mobile={1}>
+								<Checkbox
+									label="Open"
+									onChange={this.handleOpenFilter}
+									checked={this.state.open}
+								/>
+							</Grid.Column>
+						</Grid.Row>
+						<Grid.Row fluid>
+							<Grid.Column width={16} mobile={16} fluid>
+								<Card.Group
+									stackable
+									centered
+									style={{ padding: "0px" }}
+								>
+									{this.props.searchResults.length !== 0 ? (
+										filter(
+											orderBy(
+												this.props.searchResults,
+												this.state.sortBy !== "time"
+													? this.state.sortBy !==
+													  "distance"
+														? this.state.sortBy
+														: [
+																restaurant =>
+																	this.distanceRest(
+																		restaurant
+																	)
+														  ]
 													: [
 															restaurant =>
-																this.distanceRest(
-																	restaurant
-																)
-													  ]
-												: [
-														restaurant =>
-															restaurant.distance
-																.duration.value
-												  ],
-											this.state.order
-										),
-										this.state.open
-											? r => r.opening_hours.open_now
-											: r => r.place_id
-									).map(rest => (
-										<SimpleRestaurantCard
-											restaurant={rest}
-											distance={this.distanceRest(rest)}
-											key={rest.place_id}
-										/>
-									))
-								) : (
-									<div>
-										No result.
-										<Dimmer
-											active={this.state.loading}
-											page
-										>
-											<Loader>Loading... </Loader>
-										</Dimmer>
-									</div>
-								)}
-								{this.props.nextToken !== "" ? (
-									<Card
-										onClick={() =>
-											this.handleLoadMoreClick()
-										}
-										raised
-									>
-										<Card.Content>
-											<Card.Header>
-												{this.state.loadingMore ? (
-													<Dimmer active>
-														<Loader>Loading</Loader>
-													</Dimmer>
-												) : (
-													"Load More..."
+																restaurant
+																	.distance
+																	.duration
+																	.value
+													  ],
+												this.state.order
+											),
+											this.state.open
+												? r => r.opening_hours.open_now
+												: r => r.place_id
+										).map(rest => (
+											<SimpleRestaurantCard
+												restaurant={rest}
+												distance={this.distanceRest(
+													rest
 												)}
-											</Card.Header>
-										</Card.Content>
-									</Card>
-								) : (
-									""
-								)}
-							</Card.Group>
-						</Grid.Column>
-					</Grid.Row>
-				</Grid>
-			</div>
-		);
+												key={rest.place_id}
+											/>
+										))
+									) : (
+										<div>
+											No result.
+											<Dimmer
+												active={this.state.loading}
+												page
+											>
+												<Loader>Loading... </Loader>
+											</Dimmer>
+										</div>
+									)}
+									{this.props.nextToken !== "" ? (
+										<Card
+											onClick={() =>
+												this.handleLoadMoreClick()
+											}
+											raised
+										>
+											<Card.Content>
+												<Card.Header>
+													{this.state.loadingMore ? (
+														<Dimmer active>
+															<Loader>
+																Loading
+															</Loader>
+														</Dimmer>
+													) : (
+														"Load More..."
+													)}
+												</Card.Header>
+											</Card.Content>
+										</Card>
+									) : (
+										""
+									)}
+								</Card.Group>
+							</Grid.Column>
+						</Grid.Row>
+					</Grid>
+				</div>
+			);
+		}
 	}
 }
 
@@ -267,7 +283,8 @@ const mapStateToProps = state => {
 	return {
 		searchResults: state.searchResults,
 		location: state.location,
-		nextToken: state.nextToken
+		nextToken: state.nextToken,
+		userType: state.user.user_type
 	};
 };
 

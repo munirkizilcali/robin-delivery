@@ -84,7 +84,7 @@ class OrderDetails extends React.Component {
             description: "Assigning a driver to your order",
             cardBgColor: "#ffffea"
           };
-          break;
+
         case "courierSet":
           return {
             icon: "hotjar",
@@ -93,7 +93,7 @@ class OrderDetails extends React.Component {
             description: "Driver assigned. Your meal is getting ready.",
             cardBgColor: "#ffe1e0"
           };
-          break;
+
         case "pickedUp":
           return {
             icon: "motorcycle",
@@ -103,7 +103,7 @@ class OrderDetails extends React.Component {
               "Your order has been picked up. Your meal is on the way.",
             cardBgColor: "#e1e0ff"
           };
-          break;
+
         case "completed":
           if (!props.order.review || !props.order.tip_amount) {
             iconColor = "green";
@@ -120,7 +120,6 @@ class OrderDetails extends React.Component {
             cardBgColor: cardBgColor,
             iconColor: iconColor
           };
-          break;
       }
     }
   }

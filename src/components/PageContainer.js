@@ -9,8 +9,11 @@ import RestaurantDetails from "./RestaurantDetails";
 import RecentOrders from "./RecentOrders";
 import DeliveryContainer from "./DeliveryContainer";
 import Navbar from "./Navbar";
+import NavbarDriver from "./NavbarDriver";
 import { fetchUserData } from "../redux/actions/user";
 import { fetchRecentOrders } from "../redux/actions/recentOrders";
+import { setPosition } from "../redux/actions/location";
+import { history } from "../redux/history";
 
 class PageContainer extends React.Component {
 	constructor(props) {
@@ -18,17 +21,25 @@ class PageContainer extends React.Component {
 		this.state = {};
 	}
 	componentDidMount() {
-		this.props.fetchUserData().then(() => this.props.fetchRecentOrders());
+		this.props
+			.setPosition()
+			.then(() => this.props.fetchUserData())
+			.then(() => this.props.fetchRecentOrders());
 	}
 
 	render() {
+		// debugger;
 		return (
 			<Grid container columns={1}>
 				{this.props.loggedIn && !!localStorage.token ? (
 					<Grid.Row>
 						<Grid.Column width={13} mobile={16}>
 							<center>
-								<Route path="/" component={Navbar} />
+								{this.props.userType === "customer" ? (
+									<Route path="/" component={Navbar} />
+								) : (
+									<Route path="/" component={NavbarDriver} />
+								)}
 							</center>
 						</Grid.Column>
 					</Grid.Row>
@@ -70,15 +81,16 @@ class PageContainer extends React.Component {
 											path="/login"
 											component={Login}
 										/>
-										<Route
+										<PrivateRoute
+											authed={
+												this.props.loggedIn &&
+												!!localStorage.token
+											}
 											path="/recentdeliveries"
 											component={DeliveryContainer}
 										/>
-										<Route
-											path="/"
-											render={() => (
-												<Redirect to="/restaurants" />
-											)}
+										<DefaultRoute
+											userType={this.props.userType}
 										/>
 									</Switch>
 								</div>
@@ -91,16 +103,27 @@ class PageContainer extends React.Component {
 	}
 }
 
+const DefaultRoute = props => {
+	// debugger;
+	if (props.userType === "customer") {
+		return <Redirect to="/restaurants" />;
+	} else if (props.userType === "courier") {
+		return <Redirect to="/recentdeliveries" />;
+	}
+};
+
 const mapStateToProps = state => {
 	return {
-		loggedIn: state.login.isLoginSuccess
+		loggedIn: state.login.isLoginSuccess,
+		userType: state.user.user_type
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
 		fetchUserData: () => dispatch(fetchUserData()),
-		fetchRecentOrders: () => dispatch(fetchRecentOrders())
+		fetchRecentOrders: () => dispatch(fetchRecentOrders()),
+		setPosition: () => dispatch(setPosition())
 	};
 };
 

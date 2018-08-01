@@ -1,5 +1,4 @@
 import { myFetch } from "../../lib/myFetch";
-import { addResults } from "./searchResults";
 
 const getPosition = function(options) {
 	return new Promise(function(resolve, reject) {

@@ -7,12 +7,8 @@ import { Link } from "react-router-dom";
 import { debounce } from "lodash";
 
 import Logout from "./Logout";
-import CartSummary from "./CartSummary";
-import { nearbyRestaurants } from "../redux/actions/searchResults";
-import SearchBar from "./SearchBar";
-import RangeSlider from "./RangeSlider";
 
-class Navbar extends React.Component {
+class NavbarDriver extends React.Component {
 	state = {
 		hide: true
 	};
@@ -48,28 +44,17 @@ class Navbar extends React.Component {
 					</Menu>
 					{!this.state.hide ? (
 						<Menu stackable fluid>
-							<RangeSlider
-								handleHideClick={this.debouncedHideClick}
-							/>
 							<Menu.Item
 								onClick={() =>
 									this.setState({ hide: !this.state.hide })
 								}
 							>
-								<Link to="/recentorders">
+								<Link to="/recentdeliveries">
 									<Icon name="history" size="large" />
-									Recent Orders
+									Recent Deliveries
 								</Link>
 							</Menu.Item>
 							<Menu.Menu position="right">
-								{
-									<CartSummary
-										handleHideClick={
-											this.debouncedHideClick
-										}
-									/>
-								}
-								<SearchBar />
 								<Menu.Item
 									name="logout"
 									active={activeItem === "logout"}
@@ -85,7 +70,7 @@ class Navbar extends React.Component {
 					)}
 				</Grid.Row>
 				<Grid.Row only="computer">
-					<Menu compact>
+					<Menu>
 						<Menu.Item
 							name="logo"
 							active={activeItem === "logo"}
@@ -94,16 +79,13 @@ class Navbar extends React.Component {
 							<Image src={logoSquare} size="mini" />
 						</Menu.Item>
 
-						<RangeSlider />
 						<Menu.Item>
-							<Link to="/recentorders">
+							<Link to="/recentdeliveries">
 								<Icon name="history" size="large" />
-								Recent Orders
+								Recent Deliveries
 							</Link>
 						</Menu.Item>
 						<Menu.Menu position="right">
-							{<CartSummary />}
-							<SearchBar />
 							<Menu.Item
 								name="logout"
 								active={activeItem === "logout"}
@@ -129,13 +111,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-	return {
-		nearbyRestaurants: (location, range, searchTerm) =>
-			dispatch(nearbyRestaurants(location, range, searchTerm))
-	};
+	return {};
 };
 
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(Navbar);
+)(NavbarDriver);
