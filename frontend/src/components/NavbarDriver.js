@@ -28,7 +28,15 @@ class NavbarDriver extends React.Component {
 		const { activeItem } = this.state;
 
 		return (
-			<Grid style={{ position: "fixed", zIndex: "100", width: "94%" }}>
+			<Grid
+				style={{
+					position: "fixed",
+					zIndex: "100",
+					width: "90%",
+					left: "50%",
+					transform: "translateX(-50%)"
+				}}
+			>
 				<Grid.Row only="tablet mobile">
 					<Menu stackable fluid>
 						<Menu.Item
@@ -70,31 +78,34 @@ class NavbarDriver extends React.Component {
 					)}
 				</Grid.Row>
 				<Grid.Row only="computer">
-					<Menu>
-						<Menu.Item
-							name="logo"
-							active={activeItem === "logo"}
-							onClick={this.handleItemClick}
-						>
-							<Image src={logoSquare} size="mini" />
-						</Menu.Item>
-
-						<Menu.Item>
-							<Link to="/recentdeliveries">
-								<Icon name="history" size="large" />
-								Recent Deliveries
-							</Link>
-						</Menu.Item>
-						<Menu.Menu position="right">
+					<Grid.Column>
+						<Menu>
 							<Menu.Item
-								name="logout"
-								active={activeItem === "logout"}
+								name="logo"
+								active={activeItem === "logo"}
 								onClick={this.handleItemClick}
 							>
-								<Icon name="log out" size="large" /> <Logout />
+								<Image src={logoSquare} size="mini" />
 							</Menu.Item>
-						</Menu.Menu>
-					</Menu>
+
+							<Menu.Item>
+								<Link to="/recentdeliveries">
+									<Icon name="history" size="large" />
+									Recent Deliveries
+								</Link>
+							</Menu.Item>
+							<Menu.Menu position="right">
+								<Menu.Item
+									name="logout"
+									active={activeItem === "logout"}
+									onClick={this.handleItemClick}
+								>
+									<Icon name="log out" size="large" />{" "}
+									<Logout />
+								</Menu.Item>
+							</Menu.Menu>
+						</Menu>
+					</Grid.Column>
 				</Grid.Row>
 			</Grid>
 		);

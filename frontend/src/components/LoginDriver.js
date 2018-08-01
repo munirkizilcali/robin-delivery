@@ -26,7 +26,7 @@ class Login extends React.Component {
 
 	render() {
 		const { from } = this.props.location.state || {
-			from: { pathname: "/" }
+			from: { pathname: "/recentdeliveries" }
 		};
 		// debugger;
 		if (this.props.isLoginSuccess && localStorage.token) {
@@ -39,9 +39,10 @@ class Login extends React.Component {
 						<Image src={logoFull} size="small" centered />
 					</Grid.Column>
 				</Grid.Row>
+
 				<Grid.Row>
 					<Grid.Column mobile={13} tablet={6} computer={4}>
-						<Header as="h3">Customer Login</Header>
+						<Header as="h3">Driver Login</Header>
 						<Form onSubmit={this.handleSubmit}>
 							<Form.Field>
 								<Input
@@ -75,8 +76,8 @@ class Login extends React.Component {
 							<div>{this.props.loginError.message}</div>
 						)}
 						<br />
-						If you are a driver, please login{" "}
-						<Link to="/driver">here</Link>.
+						If you are a customer, please login{" "}
+						<Link to="/login">here</Link>.
 					</Grid.Column>
 				</Grid.Row>
 			</Grid>

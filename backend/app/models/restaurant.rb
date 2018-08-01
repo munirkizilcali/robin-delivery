@@ -25,11 +25,13 @@ class Restaurant < ApplicationRecord
 	end
 
 	def photo_url
-		begin
-			Rails.application.routes.url_for(controller: 'active_storage/blobs', action: :show, signed_id: self.photo.signed_id, filename: self.photo.filename, host: Rails.application.routes.default_url_options[:host])
-		rescue
-			'NonPhoto'
-		end
+		# begin
+		# 	Rails.application.routes.url_for(controller: 'active_storage/blobs', action: :show, signed_id: self.photo.signed_id, filename: self.photo.filename, host: Rails.application.routes.default_url_options[:host])
+		# rescue
+		# 	'NonPhoto'
+		# end
+
+		self.photo.service_url
 
 	end
 

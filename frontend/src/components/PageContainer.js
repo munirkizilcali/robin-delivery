@@ -4,6 +4,7 @@ import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import { Grid } from "semantic-ui-react";
 
 import Login from "./Login";
+import LoginDriver from "./LoginDriver";
 import SearchResults from "./SearchResults";
 import RestaurantDetails from "./RestaurantDetails";
 import RecentOrders from "./RecentOrders";
@@ -33,7 +34,7 @@ class PageContainer extends React.Component {
 			<Grid container columns={1}>
 				{this.props.loggedIn && !!localStorage.token ? (
 					<Grid.Row>
-						<Grid.Column width={13} mobile={16}>
+						<Grid.Column width={16} mobile={16}>
 							<center>
 								{this.props.userType === "customer" ? (
 									<Route path="/" component={Navbar} />
@@ -81,7 +82,11 @@ class PageContainer extends React.Component {
 											path="/login"
 											component={Login}
 										/>
-										<PrivateRoute
+										<Route
+											path="/driver"
+											component={LoginDriver}
+										/>
+										<PrivateRouteDriver
 											authed={
 												this.props.loggedIn &&
 												!!localStorage.token
@@ -89,8 +94,11 @@ class PageContainer extends React.Component {
 											path="/recentdeliveries"
 											component={DeliveryContainer}
 										/>
-										<DefaultRoute
-											userType={this.props.userType}
+										<Route
+											path="/"
+											render={() => (
+												<Redirect to="/restaurants" />
+											)}
 										/>
 									</Switch>
 								</div>
@@ -102,15 +110,6 @@ class PageContainer extends React.Component {
 		);
 	}
 }
-
-const DefaultRoute = props => {
-	// debugger;
-	if (props.userType === "customer") {
-		return <Redirect to="/restaurants" />;
-	} else if (props.userType === "courier") {
-		return <Redirect to="/recentdeliveries" />;
-	}
-};
 
 const mapStateToProps = state => {
 	return {
@@ -138,6 +137,26 @@ const PrivateRoute = ({ component: Component, authed, ...rest }) => {
 					<Redirect
 						to={{
 							pathname: "/login",
+							state: { from: props.location }
+						}}
+					/>
+				)
+			}
+		/>
+	);
+};
+
+const PrivateRouteDriver = ({ component: Component, authed, ...rest }) => {
+	return (
+		<Route
+			{...rest}
+			render={props =>
+				authed === true ? (
+					<Component {...props} />
+				) : (
+					<Redirect
+						to={{
+							pathname: "/driver",
 							state: { from: props.location }
 						}}
 					/>

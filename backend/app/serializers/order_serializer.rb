@@ -2,7 +2,7 @@ class OrderSerializer < ActiveModel::Serializer
   attributes :id, :courier, :order_location, :order_address, :order_time, :pickup_time, :delivery_time, :estimated_duration, :status, :driver_assigned_time, :tip_amount, :price, :map_url
   has_one :restaurant
 	class RestaurantSerializer < ActiveModel::Serializer
-		attributes :id, :name
+		attributes :id, :name, :address
 	end
   has_one :user
   has_one :review

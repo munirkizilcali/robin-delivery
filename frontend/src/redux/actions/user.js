@@ -5,6 +5,10 @@ export const saveUserInfo = user => {
 	return { type: "SAVE_USER_INFO", user: user };
 };
 
+export const resetUserInfo = () => {
+	return { type: "RESET_USER_INFO" };
+};
+
 export const fetchUserData = () => {
 	// debugger;
 	return dispatch => {

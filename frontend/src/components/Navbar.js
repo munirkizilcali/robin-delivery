@@ -91,11 +91,17 @@ class Navbar extends React.Component {
 							active={activeItem === "logo"}
 							onClick={this.handleItemClick}
 						>
-							<Image src={logoSquare} size="mini" />
+							<Link to="/restaurants">
+								<Image src={logoSquare} size="mini" />
+							</Link>
 						</Menu.Item>
 
 						<RangeSlider />
-						<Menu.Item>
+						<Menu.Item
+							name="recentOrders"
+							active={activeItem === "recentOrders"}
+							onClick={this.handleItemClick}
+						>
 							<Link to="/recentorders">
 								<Icon name="history" size="large" />
 								Recent Orders

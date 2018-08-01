@@ -21,6 +21,8 @@ Dotenv::Railtie.load
 
 TOKEN_SECRET = ENV['TOKEN_SECRET']
 GOOGLE_API_KEY = ENV['GOOGLE_API_KEY']
+AWS_S3_SECRET = ENV['AWS_S3_SECRET']
+AWS_ACCESS_KEY = ENV['AWS_ACCESS_KEY']
 
 module Backend
   class Application < Rails::Application
