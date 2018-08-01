@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { debounce } from "lodash";
 
 import Logout from "./Logout";
+import { fetchRecentOrders } from '../redux/actions/recentOrders'
 
 class NavbarDriver extends React.Component {
 	state = {
@@ -23,6 +24,10 @@ class NavbarDriver extends React.Component {
 	};
 
 	debouncedHideClick = debounce(this.handleHideClick);
+
+	handleRefresh = e => {
+		this.props.fetchRecentOrders();
+	}
 
 	render() {
 		const { activeItem } = this.state;
@@ -58,7 +63,7 @@ class NavbarDriver extends React.Component {
 								}
 							>
 								<Link to="/recentdeliveries">
-									<Icon name="history" size="large" />
+									<Icon name="history" size="large"  onClick={this.handleRefresh} />
 									Recent Deliveries
 								</Link>
 							</Menu.Item>
@@ -122,7 +127,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-	return {};
+	return {
+		fetchRecentOrders: () => dispatch(fetchRecentOrders())
+	};
 };
 
 export default connect(
