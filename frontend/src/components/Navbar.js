@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Image, Icon, Grid } from "semantic-ui-react";
+import { Menu, Image, Icon, Grid, Label } from "semantic-ui-react";
 import { connect } from "react-redux";
 import logoSquare from "../assets/logo_square.png";
 import logoTitle from "../assets/logo_title.png";
@@ -11,6 +11,7 @@ import CartSummary from "./CartSummary";
 import { nearbyRestaurants } from "../redux/actions/searchResults";
 import SearchBar from "./SearchBar";
 import RangeSlider from "./RangeSlider";
+import { fetchRecentOrders } from '../redux/actions/recentOrders'
 
 class Navbar extends React.Component {
 	state = {
@@ -25,6 +26,10 @@ class Navbar extends React.Component {
 		}
 		this.setState({ hide: !this.state.hide });
 	};
+
+	handleRefresh = e => {
+		this.props.fetchRecentOrders();
+	}
 
 	debouncedHideClick = debounce(this.handleHideClick);
 
@@ -56,10 +61,11 @@ class Navbar extends React.Component {
 									this.setState({ hide: !this.state.hide })
 								}
 							>
-								<Link to="/recentorders">
+								<Link to="/recentorders" onClick={this.handleRefresh}>
 									<Icon name="history" size="large" />
 									Recent Orders
 								</Link>
+								
 							</Menu.Item>
 							<Menu.Menu position="right">
 								{
@@ -137,7 +143,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		nearbyRestaurants: (location, range, searchTerm) =>
-			dispatch(nearbyRestaurants(location, range, searchTerm))
+			dispatch(nearbyRestaurants(location, range, searchTerm)),
+			fetchRecentOrders: () => dispatch(fetchRecentOrders())
 	};
 };
 
