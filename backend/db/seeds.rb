@@ -34,7 +34,7 @@ user_list = []
 munir = User.create({first_name:'Munir', email:'munir@test.com', password:'komanchero5555', password_confirmation:'komanchero5555', user_type:'customer', photo_url: "https://robohash.org/munir?set=set2"})
 # user2 = User.create({first_name:'user2', email:'user2@test.com', password:'12345678', password_confirmation:'12345678', user_type:'customer', photo_url: "https://robohash.org/user2?set=set2"})
 # user3 = User.create({first_name:'user3', email:'user3@test.com', password:'12345678', password_confirmation:'12345678', user_type:'customer', photo_url: "https://robohash.org/user3?set=set2"})
-lance = User.create({first_name:'Lance', email:'lance@test.com', password:'allTheDrugs1234', password_confirmation:'allTheDrugs0385', user_type:'courier', photo_url: "https://robohash.org/courier2?set=set2"})
+lance = User.create({first_name:'Lance', email:'lance@test.com', password:'allTheDrugs0385', password_confirmation:'allTheDrugs0385', user_type:'courier', photo_url: "https://robohash.org/courier2?set=set2"})
 mike = User.create({first_name:'Mike', email:'mike@test.com', password:'fasterThanLight123', password_confirmation:'fasterThanLight123', user_type:'courier', photo_url: "https://robohash.org/mike?set=set2"})
 # manager1 = User.create({first_name:'manager1', email:'manager1@test.com', password:'12345678', password_confirmation:'12345678', user_type:'manager', photo_url: "https://robohash.org/manager1?set=set2"})
 # manager2 = User.create({first_name:'manager2', email:'manager2@test.com', password:'12345678', password_confirmation:'12345678', user_type:'manager', photo_url: "https://robohash.org/manager2?set=set2"})

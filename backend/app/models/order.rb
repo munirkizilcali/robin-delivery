@@ -53,7 +53,11 @@ class Order < ApplicationRecord
     # rescue
     #   'No_map'
     # end
-    self.map_picture.service_url
+    if self.map_picture.attachment
+      self.map_picture.service_url
+    else
+      'No_map'
+    end
   end
 
 end
