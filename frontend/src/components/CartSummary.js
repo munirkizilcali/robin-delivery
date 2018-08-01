@@ -12,7 +12,7 @@ class CartSummary extends React.Component {
 		orderTotal: 0
 	};
 
-	handleConfirmOrderClick = () => {
+	handleConfirmOrderClick = e => {
 		this.setState({ orderConfirm: true });
 		// {() =>
 		// 				this.handleSubmitOrderClick(
@@ -26,8 +26,8 @@ class CartSummary extends React.Component {
 	handleSubmitOrderClick = (user, cart, restaurant, location) => {
 		this.props
 			.submitOrder(user, cart, restaurant, location)
-			.then(() => this.props.fetchRecentOrders())
-			.then(() => this.setState({ orderSubmitted: true }));
+			.then(() => this.setState({ orderSubmitted: true }))
+			.then(() => this.props.fetchRecentOrders());
 	};
 
 	render() {

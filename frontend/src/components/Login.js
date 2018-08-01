@@ -28,7 +28,7 @@ class Login extends React.Component {
 		const { from } = this.props.location.state || {
 			from: { pathname: "/" }
 		};
-
+		// debugger;
 		if (this.props.isLoginSuccess && localStorage.token) {
 			return <Redirect to={from} />;
 		}
@@ -85,7 +85,8 @@ const mapStateToProps = state => {
 		isLoginPending: state.login.isLoginPending,
 		isLoginSuccess: state.login.isLoginSuccess,
 		loginError: state.login.loginError,
-		referrerPage: state.router.location.pathname
+		referrerPage: state.router.location.pathname,
+		userType: state.user.user_type
 	};
 };
 

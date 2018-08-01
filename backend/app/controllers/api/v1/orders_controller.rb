@@ -32,12 +32,16 @@ class Api::V1::OrdersController < ApplicationController
   def update
     if order_params[:status] == 'reject'
       @order.ask_courier(User.where("user_type = ? and id != ?", 'courier', current_user.id).first)
+      render json: @order
     elsif order_params[:status] == 'courierSet'
       @order.assign_courier
+      render json: @order
     elsif order_params[:status] == 'pickedUp'
       @order.pick_up
+      render json: @order
     elsif order_params[:status] == 'completed'
       @order.complete
+      render json: @order
     else 
       if @order.update(order_params)
         render json: @order
@@ -45,6 +49,7 @@ class Api::V1::OrdersController < ApplicationController
         render json: @order.errors, status: :unprocessable_entity
       end
     end
+
   end
 
   # DELETE /orders/1

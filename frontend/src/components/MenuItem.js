@@ -47,7 +47,7 @@ class MenuItem extends React.Component {
 						}
 					>
 						{this.props.item.name
-							? this.props.item.name.slice(0, 23)
+							? this.props.item.name.slice(0, 22)
 							: "Untitled"}{" "}
 						- ${this.props.item.price}
 					</a>

@@ -1,9 +1,8 @@
 import React from "react";
-import { Icon, Rating, Card, List } from "semantic-ui-react";
+import { Icon, Rating, Card, List, Image } from "semantic-ui-react";
 import moment from "moment";
 
 import ProceedDeliveryForm from "./ProceedDeliveryForm";
-import RateForm from "./RateForm";
 
 class DeliveryDetails extends React.Component {
   constructor(props) {
@@ -84,7 +83,7 @@ class DeliveryDetails extends React.Component {
             description: "Assigning a driver to your order",
             cardBgColor: "#ffffea"
           };
-          break;
+
         case "courierSet":
           return {
             icon: "hotjar",
@@ -93,7 +92,7 @@ class DeliveryDetails extends React.Component {
             description: "Driver assigned. Your meal is getting ready.",
             cardBgColor: "#ffe1e0"
           };
-          break;
+
         case "pickedUp":
           return {
             icon: "motorcycle",
@@ -103,7 +102,7 @@ class DeliveryDetails extends React.Component {
               "Your order has been picked up. Your meal is on the way.",
             cardBgColor: "#e1e0ff"
           };
-          break;
+
         case "completed":
           if (!props.order.review || !props.order.tip_amount) {
             iconColor = "green";
@@ -120,7 +119,6 @@ class DeliveryDetails extends React.Component {
             cardBgColor: cardBgColor,
             iconColor: iconColor
           };
-          break;
       }
     }
   }
@@ -128,6 +126,14 @@ class DeliveryDetails extends React.Component {
   render() {
     return this.props.order ? (
       <Card raised color={this.state.iconColor} style={{ width: "350px" }}>
+        {!(
+          this.props.order.status === "new" ||
+          this.props.order.map_url === "No_map"
+        ) ? (
+          <Image src={this.props.order.map_url} />
+        ) : (
+          ""
+        )}
         <Card.Content style={{ backgroundColor: this.state.cardBgColor }}>
           <Card.Header>
             <Icon name={this.state.icon} color={this.state.iconColor} />
