@@ -48,12 +48,12 @@ class Order < ApplicationRecord
   end
 
   def map_url
-    begin
-      Rails.application.routes.url_for(controller: 'active_storage/blobs', action: :show, signed_id: self.map_picture.signed_id, filename: self.map_picture.filename, host: Rails.application.routes.default_url_options[:host])
-    rescue
-      'No_map'
-    end
-
+    # begin
+    #   Rails.application.routes.url_for(controller: 'active_storage/blobs', action: :show, signed_id: self.map_picture.signed_id, filename: self.map_picture.filename, host: Rails.application.routes.default_url_options[:host])
+    # rescue
+    #   'No_map'
+    # end
+    self.map_picture.service_url
   end
 
 end
