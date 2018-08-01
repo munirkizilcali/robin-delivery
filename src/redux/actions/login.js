@@ -1,5 +1,5 @@
 import { myFetch } from "../../lib/myFetch";
-import { fetchUserData } from "./user";
+import { fetchUserData, resetUserInfo } from "./user";
 import { fetchRecentOrders } from "./recentOrders";
 
 export function callLoginApi(email, password, callback) {
@@ -21,6 +21,7 @@ export function callLoginApi(email, password, callback) {
 
 export function setLoginSuccess(isLoginSuccess) {
   return {
+    // debugger
     type: "SET_LOGIN_SUCCESS",
     isLoginSuccess
   };
@@ -37,6 +38,7 @@ export function logout() {
   return dispatch => {
     dispatch(setLoginSuccess(false));
     localStorage.removeItem("token");
+    dispatch(resetUserInfo());
   };
 }
 
@@ -49,7 +51,7 @@ export function login(email, password) {
       if (!error) {
         dispatch(fetchUserData()).then(() => dispatch(fetchRecentOrders()));
       } else {
-        debugger;
+        // debugger;
         dispatch(setLoginError(error));
       }
     });
