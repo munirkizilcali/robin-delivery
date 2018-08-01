@@ -6,9 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-cuisine=['American', 'Barbecue', 'Chinese', 'French', 'Hamburger', 'Indian', 'Italian', 'Japanese', 'Mexican', 'Pizza', 'Seafood', 'Steak', 'Sushi', 'Thai']
+# cuisine=['American', 'Barbecue', 'Chinese', 'French', 'Hamburger', 'Indian', 'Italian', 'Japanese', 'Mexican', 'Pizza', 'Seafood', 'Steak', 'Sushi', 'Thai']
 
-food_type=['Main', 'Beverage', 'Dessert', 'Starter', 'Pasta', 'Sandwich', 'Grill' ]
+# food_type=['Main', 'Beverage', 'Dessert', 'Starter', 'Pasta', 'Sandwich', 'Grill' ]
 
 
  	# beers= ["90 Minute IPA", "Orval Trappist Ale", "Shakespeare Oatmeal", "Chocolate St", "Ten FIDY", "Maharaj", "St. Bernardus Abt 12", "Hop Rod Rye", "Stone Imperial Russian Stout", "Nugget Nectar", "Racer 5 India Pale Ale, Bear Republic Bre", "Bell’s Expedition", "Samuel Smith’s Imperial IPA", "Péché Mortel", "Duvel", "Stone IPA", "Sierra Nevada Bigfoot Barleywine Style Ale", "Alpha King Pale Ale", "Sierra Nevada Celebration Ale", "Maudite", "Ruination IPA", "Bourbon County Stout", "Old Rasputin Russian Imperial Stout", "Celebrator Doppelbock", "Pliny The Elder", "La Fin Du Monde", "Double Bastard Ale", "Trappistes Rochefort 8", "Samuel Smith’s Oatmeal Stout", "Schneider Aventinus", "Two Hearted Ale", "Oaked Arrogant Bastard Ale", "Hennepin", "Westmalle Trappist Tripel", "Storm King Stout", "Arrogant Bastard Ale", "Edmund Fitzgerald Porter", "Founders Kentucky Breakfast", "HopSlam Ale", "Oak Aged Yeti Imperial Stout", "Weihenstephaner Hefeweissbier", "Yeti Imperial Stout", "Sublimely Self-Righteous Ale", "Hercules Double IPA", "Trappistes Rochefort 10", "Chimay Grande Réserve", "Dreadnaught IPA", "Founders Breakfast Stout", "Trois Pistoles", "Brooklyn Black"] 
@@ -26,19 +26,19 @@ food_type=['Main', 'Beverage', 'Dessert', 'Starter', 'Pasta', 'Sandwich', 'Grill
 
 users = []
 user_list = []
-200.times {|i| users.push("user#{i}")}
-users.each do |user|
-user_list.push(User.create({first_name: user, email:"#{user}@test.com", password:'12345678', password_confirmation:'12345678', user_type:'customer', photo_url: "https://robohash.org/#{user}?set=set2", address: Faker::Address.full_address}))
-end
+# 200.times {|i| users.push("user#{i}")}
+# users.each do |user|
+# user_list.push(User.create({first_name: user, email:"#{user}@test.com", password:'12345678', password_confirmation:'12345678', user_type:'customer', photo_url: "https://robohash.org/#{user}?set=set2", address: Faker::Address.full_address}))
+# end
 
-# user1 = User.create({first_name:'user1', email:'user1@test.com', password:'12345678', password_confirmation:'12345678', user_type:'customer', photo_url: "https://robohash.org/user1?set=set2"})
+munir = User.create({first_name:'Munir', email:'munir@test.com', password:'komanchero5555', password_confirmation:'komanchero5555', user_type:'customer', photo_url: "https://robohash.org/munir?set=set2"})
 # user2 = User.create({first_name:'user2', email:'user2@test.com', password:'12345678', password_confirmation:'12345678', user_type:'customer', photo_url: "https://robohash.org/user2?set=set2"})
 # user3 = User.create({first_name:'user3', email:'user3@test.com', password:'12345678', password_confirmation:'12345678', user_type:'customer', photo_url: "https://robohash.org/user3?set=set2"})
-courier1 = User.create({first_name:'courier1', email:'courier1@test.com', password:'12345678', password_confirmation:'12345678', user_type:'courier', photo_url: "https://robohash.org/courier1?set=set2"})
-courier2 = User.create({first_name:'courier2', email:'courier2@test.com', password:'12345678', password_confirmation:'12345678', user_type:'courier', photo_url: "https://robohash.org/courier2?set=set2"})
-manager1 = User.create({first_name:'manager1', email:'manager1@test.com', password:'12345678', password_confirmation:'12345678', user_type:'manager', photo_url: "https://robohash.org/manager1?set=set2"})
-manager2 = User.create({first_name:'manager2', email:'manager2@test.com', password:'12345678', password_confirmation:'12345678', user_type:'manager', photo_url: "https://robohash.org/manager2?set=set2"})
-admin1 = User.create({first_name:'admin1', email:'admin1@test.com', password:'12345678', password_confirmation:'12345678', user_type:'admin', photo_url: "https://robohash.org/admin1?set=set2"})
+lance = User.create({first_name:'Lance', email:'lance@test.com', password:'allTheDrugs1234', password_confirmation:'allTheDrugs0385', user_type:'courier', photo_url: "https://robohash.org/courier2?set=set2"})
+mike = User.create({first_name:'Mike', email:'mike@test.com', password:'fasterThanLight123', password_confirmation:'fasterThanLight123', user_type:'courier', photo_url: "https://robohash.org/mike?set=set2"})
+# manager1 = User.create({first_name:'manager1', email:'manager1@test.com', password:'12345678', password_confirmation:'12345678', user_type:'manager', photo_url: "https://robohash.org/manager1?set=set2"})
+# manager2 = User.create({first_name:'manager2', email:'manager2@test.com', password:'12345678', password_confirmation:'12345678', user_type:'manager', photo_url: "https://robohash.org/manager2?set=set2"})
+# admin1 = User.create({first_name:'admin1', email:'admin1@test.com', password:'12345678', password_confirmation:'12345678', user_type:'admin', photo_url: "https://robohash.org/admin1?set=set2"})
 
 managers = [manager1, manager2]
 
