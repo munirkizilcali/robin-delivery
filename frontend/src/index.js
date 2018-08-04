@@ -11,7 +11,7 @@ import { history } from "./redux/history";
 
 ReactDOM.render(
 	<Provider store={store}>
-		<ConnectedRouter history={history}>
+		<ConnectedRouter history={history} basename="/robin-delivery">
 			<App />
 		</ConnectedRouter>
 	</Provider>,
