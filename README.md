@@ -12,12 +12,12 @@ Please use incognito windows or different browsers if you want to access both (c
 As backend is deployed on Heroku Free Tier, please consider wakeup time needed and refresh the page if login doesn't work at your first attempt.
 
 [Customer Interface Link](https://munirkizilcali.com/robin-delivery/) 
-U: munir@test.com  
-P: komanchero5555
+Username: munir@test.com  
+Password: komanchero5555
 
 [Driver Interface Link](https://munirkizilcali.com/robin-delivery/driver)
-U: mike@test.com  
-P: fasterThanLight123
+Username: mike@test.com  
+Password: fasterThanLight123
 ### Technologies
 - Single Page application using React at the front end, Ruby on Rails at back end
 - Rails handles all API calls, models, database and user authentication with JWT.
