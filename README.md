@@ -38,7 +38,7 @@ Password: fasterThanLight123
 	- Heroku Free tier for backend deployment
 	- Github pages for frontend deployment
 	
-	### Database Schema
+### Database Schema
 	
 | users | restaurants | menu_items | orders | meals | reviews |
 |-------|-------------|------------|--------|-------|---------|
