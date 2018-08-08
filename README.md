@@ -9,7 +9,7 @@ This project is created as a final project in two and a half weeks time for Flat
 ### Demo Links
 Please use incognito windows or different browsers if you want to access both (customer and driver interfaces) at the same time. 
 
-As backend is deployed on Heroku Free Tier, please consider wakeup time needed and refresh the page if login doesn't work at your first attempt.
+As backend is deployed on Heroku Free Tier, please consider wake up time needed and refresh the page if login doesn't work at your first attempt.
 
 [Customer Interface Link](https://munirkizilcali.com/robin-delivery/) 
 
