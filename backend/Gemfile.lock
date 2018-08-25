@@ -658,6 +658,10 @@ GEM
     ffi (1.9.25)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
+    graphiql-rails (1.4.11)
+      railties
+      sprockets-rails
+    graphql (1.7.4)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (1.0.1)
@@ -772,6 +776,8 @@ DEPENDENCIES
   byebug
   dotenv-rails
   faker
+  graphiql-rails
+  graphql
   image_processing
   jwt
   knock
@@ -790,4 +796,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.16.1
+   1.16.3
