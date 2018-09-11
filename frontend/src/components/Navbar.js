@@ -11,7 +11,7 @@ import CartSummary from "./CartSummary";
 import { nearbyRestaurants } from "../redux/actions/searchResults";
 import SearchBar from "./SearchBar";
 import RangeSlider from "./RangeSlider";
-import { fetchRecentOrders } from '../redux/actions/recentOrders'
+import { fetchRecentOrders } from "../redux/actions/recentOrders";
 
 class Navbar extends React.Component {
 	state = {
@@ -29,7 +29,17 @@ class Navbar extends React.Component {
 
 	handleRefresh = e => {
 		this.props.fetchRecentOrders();
-	}
+	};
+
+	componentDidMount = () => {
+		this.recentOrdersLookup = setInterval(() => {
+			this.handleRefresh();
+		}, 1000);
+	};
+
+	componentWillUnmount = () => {
+		clearInterval(this.recentOrdersLookup);
+	};
 
 	debouncedHideClick = debounce(this.handleHideClick);
 
@@ -61,11 +71,13 @@ class Navbar extends React.Component {
 									this.setState({ hide: !this.state.hide })
 								}
 							>
-								<Link to="/recentorders" onClick={this.handleRefresh}>
+								<Link
+									to="/recentorders"
+									onClick={this.handleRefresh}
+								>
 									<Icon name="history" size="large" />
 									Recent Orders
 								</Link>
-								
 							</Menu.Item>
 							<Menu.Menu position="right">
 								{
@@ -144,7 +156,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		nearbyRestaurants: (location, range, searchTerm) =>
 			dispatch(nearbyRestaurants(location, range, searchTerm)),
-			fetchRecentOrders: () => dispatch(fetchRecentOrders())
+		fetchRecentOrders: () => dispatch(fetchRecentOrders())
 	};
 };
 
