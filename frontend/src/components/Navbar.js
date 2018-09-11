@@ -14,9 +14,13 @@ import RangeSlider from "./RangeSlider";
 import { fetchRecentOrders } from "../redux/actions/recentOrders";
 
 class Navbar extends React.Component {
-	state = {
-		hide: true
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			hide: true
+		};
+		this.recentOrdersLookup = null;
+	}
 
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
